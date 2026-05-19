@@ -1,196 +1,89 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  Brain, 
-  Code2, 
-  ShoppingCart, 
-  Globe, 
-  Palette, 
-  Cpu,
-  ArrowRight,
-  Sparkles,
-  Zap,
-  Shield
-} from 'lucide-react';
+import { ArrowRight, Brain, Code, Zap, ShoppingBag, Palette, Server } from 'lucide-react';
+import StartProjectModal from './StartProjectModal';
+
+const services = [
+  { num: '01', title: 'AI & Machine Learning', desc: 'Predictive analytics, NLP, computer vision — we transform your data into intelligent systems that automate and scale.', icon: Brain, tags: ['TensorFlow', 'PyTorch', 'GPT'] },
+  { num: '02', title: 'Web Development', desc: 'Modern, performant web applications built with React, Next.js, and cloud-native architecture for peak reliability.', icon: Code, tags: ['React', 'Next.js', 'Node'] },
+  { num: '03', title: 'SaaS Platforms', desc: 'Enterprise-grade multi-tenant systems with robust APIs, real-time data, and infrastructure that scales to millions.', icon: Zap, tags: ['API Design', 'Multi-tenant', 'Scale'] },
+  { num: '04', title: 'E-Commerce', desc: 'Custom Shopify Plus stores and headless commerce platforms designed to convert and delight at every touchpoint.', icon: ShoppingBag, tags: ['Shopify Plus', 'Headless', 'Payments'] },
+  { num: '05', title: 'UI/UX Design', desc: 'Research-driven design systems and intuitive interfaces that make complex products feel effortlessly simple.', icon: Palette, tags: ['Design Systems', 'Research', 'Prototyping'] },
+  { num: '06', title: 'DevOps & Cloud', desc: 'Automated CI/CD pipelines, container orchestration, and monitoring that keeps your infrastructure bulletproof.', icon: Server, tags: ['AWS', 'Docker', 'CI/CD'] },
+];
 
 const Services = () => {
-  const [hoveredService, setHoveredService] = useState<number | null>(null);
-
-  const services = [
-    {
-      id: 1,
-      icon: Brain,
-      title: 'AI Solutions',
-      description: 'Machine learning models, automation systems, and intelligent algorithms that transform your business processes.',
-      gradient: 'from-blue-500 to-cyan-500',
-      features: ['Machine Learning', 'NLP Solutions', 'Computer Vision'],
-      size: 'bento-item-1'
-    },
-    {
-      id: 2,
-      icon: Code2,
-      title: 'SaaS Development',
-      description: 'Scalable, secure, and user-friendly software-as-a-service platforms built for growth.',
-      gradient: 'from-purple-500 to-pink-500',
-      features: ['Multi-tenant Architecture', 'API Integration', 'Cloud Deployment'],
-      size: 'bento-item-2'
-    },
-    {
-      id: 3,
-      icon: ShoppingCart,
-      title: 'Shopify Engineering',
-      description: 'Custom themes, apps, and integrations that elevate your e-commerce experience.',
-      gradient: 'from-green-500 to-emerald-500',
-      features: ['Custom Themes', 'App Development', 'API Integration'],
-      size: 'bento-item-3'
-    },
-    {
-      id: 4,
-      icon: Globe,
-      title: 'Web Platforms',
-      description: 'Modern, responsive web applications that deliver exceptional user experiences across all devices.',
-      gradient: 'from-orange-500 to-red-500',
-      features: ['Progressive Web Apps', 'Responsive Design', 'Performance Optimization'],
-      size: 'bento-item-4'
-    },
-    {
-      id: 5,
-      icon: Palette,
-      title: 'UI/UX Systems',
-      description: 'Beautiful, intuitive interfaces that users love and that drive business results.',
-      gradient: 'from-indigo-500 to-purple-500',
-      features: ['Design Systems', 'User Research', 'Prototyping'],
-      size: 'bento-item-5'
-    },
-    {
-      id: 6,
-      icon: Cpu,
-      title: 'Automation Infrastructure',
-      description: 'Streamlined workflows and automated systems that boost productivity and reduce costs.',
-      gradient: 'from-teal-500 to-blue-500',
-      features: ['CI/CD Pipelines', 'DevOps Solutions', 'Cloud Infrastructure'],
-      size: 'bento-item-6'
-    }
-  ];
-
-  const getIconForFeature = (feature: string) => {
-    if (feature.includes('Machine') || feature.includes('AI')) return Sparkles;
-    if (feature.includes('Performance') || feature.includes('Speed')) return Zap;
-    if (feature.includes('Security') || feature.includes('Secure')) return Shield;
-    return ArrowRight;
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section id="services" className="relative py-32 bg-gradient-to-br from-gray-50 to-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Our
-            <span className="block text-gradient">Services</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive digital solutions designed to accelerate your business growth and transform your digital presence.
-          </p>
-        </div>
+    <>
+      <section id="services" className="section-pad relative" style={{ background: 'hsl(var(--bg))' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-6 scroll-reveal">
+            <span className="text-caption">What We Do</span>
+            <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+          </div>
 
-        {/* Bento Grid */}
-        <div className="bento-grid">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className={`${service.size} group cursor-pointer`}
-              onMouseEnter={() => setHoveredService(service.id)}
-              onMouseLeave={() => setHoveredService(null)}
-            >
-              <div className={`h-full card-premium hover-lift relative overflow-hidden ${
-                hoveredService === service.id ? 'border-blue-500' : ''
-              }`}>
-                {/* Gradient Background */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                
-                {/* Content */}
-                <div className="relative h-full flex flex-col">
-                  {/* Icon and Title */}
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
-                      <service.icon className="w-7 h-7 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-gradient transition-colors">
-                        {service.title}
-                      </h3>
-                    </div>
-                  </div>
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-16 mb-16">
+            <h2 className="text-display scroll-reveal delay-100" style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}>
+              Six disciplines,{' '}
+              <span className="text-serif-accent">one mission</span>
+            </h2>
+            <div className="flex items-end scroll-reveal delay-200">
+              <p className="text-body max-w-lg">
+                We bring together engineering, design, and strategy to build digital products
+                that solve real problems and create lasting competitive advantage.
+              </p>
+            </div>
+          </div>
 
-                  {/* Description */}
-                  <p className="text-gray-600 mb-6 flex-grow">
-                    {service.description}
-                  </p>
+          {/* Services list — editorial numbered list, not bento grid */}
+          <div className="space-y-0">
+            {services.map((svc, i) => (
+              <div key={i}
+                className="group py-7 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 cursor-default transition-all duration-300 scroll-reveal"
+                style={{ borderTop: '1px solid hsl(var(--border))' }}
+              >
+                <span className="font-mono text-xs tracking-wider shrink-0" style={{ color: 'hsl(var(--accent))' }}>
+                  {svc.num}
+                </span>
 
-                  {/* Features */}
-                  <div className="space-y-3">
-                    {service.features.map((feature, index) => {
-                      const Icon = getIconForFeature(feature);
-                      return (
-                        <div 
-                          key={index} 
-                          className="flex items-center space-x-3 text-sm text-gray-600 group-hover:text-gray-900 transition-colors"
-                        >
-                          <Icon className="w-4 h-4 text-blue-500" />
-                          <span>{feature}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300"
+                  style={{ background: 'hsl(var(--surface-warm))', border: '1px solid hsl(var(--border))' }}
+                >
+                  <svc.icon className="w-5 h-5 transition-colors duration-300" style={{ color: 'hsl(var(--ink-muted))' }} />
+                </div>
 
-                  {/* Hover Arrow */}
-                  <div className={`absolute bottom-6 right-6 transform transition-all duration-300 ${
-                    hoveredService === service.id ? 'translate-x-0 opacity-100' : 'translate-x-2 opacity-0'
-                  }`}>
-                    <ArrowRight className="w-5 h-5 text-blue-500" />
-                  </div>
+                <h3 className="text-subhead text-lg lg:w-56 shrink-0 group-hover:text-accent transition-colors duration-300">
+                  {svc.title}
+                </h3>
+
+                <p className="text-sm flex-1" style={{ color: 'hsl(var(--ink-light))', lineHeight: 1.7 }}>
+                  {svc.desc}
+                </p>
+
+                <div className="flex flex-wrap gap-2 shrink-0">
+                  {svc.tags.map(t => <span key={t} className="tag">{t}</span>)}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+            <div style={{ borderTop: '1px solid hsl(var(--border))' }} />
+          </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-20 text-center">
-          <div className="inline-flex items-center space-x-4">
-            <button className="btn-premium text-lg px-8 py-4 flex items-center space-x-2">
-              <span>Explore All Services</span>
-              <ArrowRight className="w-5 h-5" />
+          <div className="mt-14 flex flex-col sm:flex-row gap-4 justify-center scroll-reveal delay-200">
+            <button className="btn-primary flex items-center justify-center gap-2" onClick={() => setIsModalOpen(true)}>
+              Discuss Your Project <ArrowRight className="w-4 h-4" />
             </button>
-            <button className="btn-outline text-lg px-8 py-4">
-              Get Custom Quote
+            <button className="btn-outline" onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}>
+              View Case Studies
             </button>
           </div>
         </div>
+      </section>
 
-        {/* Service Stats */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-gray-900 mb-2">24/7</div>
-            <div className="text-sm text-gray-600">Support Available</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-gray-900 mb-2">99.9%</div>
-            <div className="text-sm text-gray-600">Uptime Guarantee</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-gray-900 mb-2">48h</div>
-            <div className="text-sm text-gray-600">Response Time</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-gray-900 mb-2">30d</div>
-            <div className="text-sm text-gray-600">Money Back</div>
-          </div>
-        </div>
-      </div>
-    </section>
+      <StartProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 };
 
