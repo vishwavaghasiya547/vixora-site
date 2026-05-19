@@ -1,161 +1,78 @@
 'use client';
 
-import { Mail, Phone, MapPin, Globe, MessageCircle, Users, Camera } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
+import VixoraLogo from './ui/VixoraLogo';
 
 const Footer = () => {
   const footerLinks = {
     company: [
-      { name: 'About Us', href: '#about' },
-      { name: 'Our Process', href: '#process' },
-      { name: 'Careers', href: '#' },
-      { name: 'Blog', href: '#' }
+      { name: 'About', href: '/about' },
+      { name: 'Services', href: '/#services' },
+      { name: 'Work', href: '/#work' },
+      { name: 'Contact', href: '/#contact' },
     ],
-    services: [
-      { name: 'AI Solutions', href: '#services' },
-      { name: 'Web Development', href: '#services' },
-      { name: 'Shopify Engineering', href: '#services' },
-      { name: 'UI/UX Design', href: '#services' }
+    social: [
+      { name: 'Twitter', href: '#' },
+      { name: 'LinkedIn', href: '#' },
+      { name: 'Dribbble', href: '#' },
+      { name: 'GitHub', href: '#' },
     ],
-    resources: [
-      { name: 'Case Studies', href: '#work' },
-      { name: 'Documentation', href: '#' },
-      { name: 'Support', href: '#' },
-      { name: 'Privacy Policy', href: '#' }
-    ]
+    legal: [
+      { name: 'Privacy Policy', href: '#' },
+      { name: 'Terms of Service', href: '#' },
+    ],
   };
 
-  const socialLinks = [
-    { icon: Globe, href: '#', label: 'GitHub' },
-    { icon: MessageCircle, href: '#', label: 'Twitter' },
-    { icon: Users, href: '#', label: 'LinkedIn' },
-    { icon: Camera, href: '#', label: 'Instagram' }
-  ];
-
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="py-16">
-          <div className="grid lg:grid-cols-5 gap-12">
-            {/* Brand Column */}
-            <div className="lg:col-span-2">
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">V</span>
-                </div>
-                <span className="text-2xl font-bold text-gray-900">Vixora</span>
+    <footer className="relative" style={{ background: 'hsl(var(--bg))' }}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-24">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8">
+
+          <div className="lg:col-span-4">
+            <Link href="/" className="inline-block mb-6">
+              <VixoraLogo size="md" />
+            </Link>
+            <p className="text-sm leading-relaxed max-w-sm mb-8" style={{ color: 'hsl(var(--ink-light))' }}>
+              We build digital products that matter. A studio obsessed with craft, driven by outcomes.
+            </p>
+            <div className="flex items-center gap-2">
+              <div className="status-live" />
+              <span className="text-caption">Taking on new projects for Q3</span>
+            </div>
+          </div>
+
+          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8 lg:gap-12">
+            {Object.entries(footerLinks).map(([title, links]) => (
+              <div key={title}>
+                <h4 className="text-xs font-mono uppercase tracking-wider mb-6" style={{ color: 'hsl(var(--ink-muted))' }}>{title}</h4>
+                <ul className="space-y-3">
+                  {links.map(link => (
+                    <li key={link.name}>
+                      <Link href={link.href}
+                        className="text-sm font-medium transition-colors flex items-center gap-1 group w-max"
+                        style={{ color: 'hsl(var(--ink))' }}
+                        onMouseEnter={e => { e.currentTarget.style.color = 'hsl(var(--accent))'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = 'hsl(var(--ink))'; }}
+                      >
+                        <span>{link.name}</span>
+                        <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-1 group-hover:translate-x-0" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <p className="text-gray-600 mb-6 max-w-md">
-                Engineering intelligent digital experiences for the future. We help businesses transform their ideas into reality with cutting-edge technology solutions.
-              </p>
-
-              {/* Contact Info */}
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3 text-gray-600">
-                  <Mail className="w-5 h-5" />
-                  <a href="mailto:hello@vixora.com" className="hover:text-blue-600 transition-colors">
-                    hello@vixora.com
-                  </a>
-                </div>
-                <div className="flex items-center space-x-3 text-gray-600">
-                  <Phone className="w-5 h-5" />
-                  <a href="tel:+15551234567" className="hover:text-blue-600 transition-colors">
-                    +1 (555) 123-4567
-                  </a>
-                </div>
-                <div className="flex items-center space-x-3 text-gray-600">
-                  <MapPin className="w-5 h-5" />
-                  <span>Silicon Valley, CA</span>
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div className="flex space-x-4 mt-6">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all duration-200"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-5 h-5" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Links Columns */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-6">Company</h3>
-              <ul className="space-y-3">
-                {footerLinks.company.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-6">Services</h3>
-              <ul className="space-y-3">
-                {footerLinks.services.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-6">Resources</h3>
-              <ul className="space-y-3">
-                {footerLinks.resources.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-600 hover:text-blue-600 transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="py-8 border-t border-gray-200">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="text-gray-600 text-sm mb-4 md:mb-0">
-              © {currentYear} Vixora. All rights reserved.
-            </div>
-            
-            <div className="flex items-center space-x-6 text-sm text-gray-600">
-              <a href="#" className="hover:text-blue-600 transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-blue-600 transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-blue-600 transition-colors">
-                Cookie Policy
-              </a>
-            </div>
+        {/* Bottom */}
+        <div className="mt-20 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4" style={{ borderTop: '1px solid hsl(var(--border))' }}>
+          <p className="text-xs font-mono uppercase tracking-wider" style={{ color: 'hsl(var(--ink-muted))' }}>
+            © {new Date().getFullYear()} Vixora Studio. All rights reserved.
+          </p>
+          <div className="text-xs font-mono tracking-wider" style={{ color: 'hsl(var(--ink-muted))' }}>
+            SAN FRANCISCO — LONDON
           </div>
         </div>
       </div>

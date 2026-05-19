@@ -1,200 +1,238 @@
 'use client';
 
+import { ArrowRight, Code2, Database, Terminal, GitBranch, ShieldCheck, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, Zap, Shield, Globe } from 'lucide-react';
+import StartProjectModal from './StartProjectModal';
+
+const scrollTo = (id: string) => {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+// Tech words for typewriter effect
+const techWords = ['AI Platforms', 'Enterprise SaaS', 'Scalable APIs', 'Digital Products'];
 
 const Hero = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [wordIdx, setWordIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
 
+  // Typewriter effect
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
+    const currentWord = techWords[wordIdx];
+    const timeout = setTimeout(() => {
+      if (!isDeleting && charIdx < currentWord.length) {
+        setCharIdx(prev => prev + 1);
+      } else if (isDeleting && charIdx > 0) {
+        setCharIdx(prev => prev - 1);
+      } else if (!isDeleting && charIdx === currentWord.length) {
+        setTimeout(() => setIsDeleting(true), 2000); // Pause at end of word
+      } else if (isDeleting && charIdx === 0) {
+        setIsDeleting(false);
+        setWordIdx((prev) => (prev + 1) % techWords.length);
+      }
+    }, isDeleting ? 40 : 80);
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => clearTimeout(timeout);
+  }, [charIdx, isDeleting, wordIdx]);
+
+  // Scroll & Mouse tracking
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    const handleMouse = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouse);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouse);
+    };
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-blue-50 to-purple-50 mb-0">
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Floating gradient orbs */}
-        <div 
-          className="absolute w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-float"
+    <>
+      <section id="home" className="relative min-h-screen flex items-end overflow-hidden"
+        style={{ background: 'hsl(var(--bg))' }}
+      >
+        {/* Interactive Mouse Glow */}
+        <div
+          className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-300"
           style={{
-            left: '10%',
-            top: '20%',
-            transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`,
+            background: `radial-gradient(800px circle at ${mousePos.x}px ${mousePos.y}px, hsla(14, 72%, 54%, 0.04), transparent 40%)`
           }}
         />
-        <div 
-          className="absolute w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-float"
+
+        {/* Engineering Blueprint Grid Background */}
+        <div className="absolute inset-0 z-0 opacity-[0.4]"
           style={{
-            right: '15%',
-            bottom: '30%',
-            transform: `translate(${mousePosition.x * -0.02}px, ${mousePosition.y * -0.02}px)`,
-            animationDelay: '2s',
+            backgroundImage: `
+              linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+              linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
+            `,
+            backgroundSize: '48px 48px',
+            transform: `translateY(${scrollY * 0.1}px)` // Parallax grid
           }}
         />
-        <div 
-          className="absolute w-64 h-64 bg-gradient-to-br from-blue-400/15 to-cyan-400/15 rounded-full blur-2xl animate-float"
-          style={{
-            left: '50%',
-            top: '60%',
-            transform: `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.01}px)`,
-            animationDelay: '4s',
-          }}
-        />
-      </div>
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-30">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#9C92AC" strokeWidth="0.5" opacity="0.1"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
+        {/* Dynamic Data Flow Lines (SVG) */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0,200 C300,200 400,600 800,400 C1200,200 1400,500 2000,300"
+              fill="none"
+              stroke="hsl(var(--accent))"
+              strokeWidth="1"
+              strokeDasharray="4 8"
+              style={{ strokeDashoffset: scrollY * -0.5 }} // Moves on scroll
+            />
+            <path
+              d="M0,600 C400,600 600,100 1000,300 C1400,500 1600,200 2000,400"
+              fill="none"
+              stroke="hsl(var(--ink))"
+              strokeWidth="1"
+              strokeDasharray="10 10"
+              style={{ strokeDashoffset: scrollY * 0.3 }}
+            />
+          </svg>
+        </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8">
-            {/* Trust Badges */}
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <div className="flex items-center space-x-1">
-                <Shield className="w-4 h-4 text-green-500" />
-                <span>Enterprise Security</span>
-              </div>
-              <div className="w-px h-4 bg-gray-300" />
-              <div className="flex items-center space-x-1">
-                <Zap className="w-4 h-4 text-yellow-500" />
-                <span>Lightning Fast</span>
-              </div>
-              <div className="w-px h-4 bg-gray-300" />
-              <div className="flex items-center space-x-1">
-                <Globe className="w-4 h-4 text-blue-500" />
-                <span>Global Scale</span>
-              </div>
+        {/* Parallax Tech Floating Cards */}
+        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden hidden md:block">
+          {/* Code Snippet Card */}
+          <div className="absolute top-[20%] right-[10%] w-[320px] rounded-xl shadow-2xl backdrop-blur-md p-5 transition-transform duration-75"
+            style={{
+              background: 'hsla(0, 0%, 100%, 0.7)',
+              border: '1px solid hsl(var(--border))',
+              transform: `translateY(${scrollY * 0.35}px) rotate(${scrollY * 0.02}deg)`,
+            }}
+          >
+            <div className="flex items-center gap-2 mb-3 pb-2" style={{ borderBottom: '1px solid hsl(var(--border))' }}>
+              <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+              <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+              <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+              <span className="text-[10px] font-mono ml-2 uppercase" style={{ color: 'hsl(var(--ink-muted))' }}>core_engine.ts</span>
+              <Code2 className="w-3 h-3 ml-auto" style={{ color: 'hsl(var(--ink-muted))' }} />
             </div>
-
-            {/* Main Headline */}
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
-                Engineering
-                <span className="block text-gradient">Intelligent Digital</span>
-                <span className="block text-gradient-2">Experiences</span>
-                <span className="text-gray-900">for the Future</span>
-              </h1>
-              
-              <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-                Vixora helps startups and enterprises build scalable digital products, AI-powered platforms, and premium web experiences.
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="btn-premium text-lg px-8 py-4 flex items-center justify-center space-x-2 group">
-                <span>Start Your Project</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="btn-outline text-lg px-8 py-4 flex items-center justify-center space-x-2">
-                <span>Explore Work</span>
-                <Sparkles className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
-              <div>
-                <div className="text-3xl font-bold text-gray-900">150+</div>
-                <div className="text-sm text-gray-600">Projects Delivered</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-gray-900">98%</div>
-                <div className="text-sm text-gray-600">Client Satisfaction</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-gray-900">24/7</div>
-                <div className="text-sm text-gray-600">Support Available</div>
-              </div>
+            <div className="font-mono text-[11px] leading-relaxed" style={{ color: 'hsl(var(--ink))' }}>
+              <div><span style={{ color: 'hsl(var(--accent))' }}>import</span> {'{'} NeuralNet {'}'} <span style={{ color: 'hsl(var(--accent))' }}>from</span> '@vixora/ai';</div>
+              <div className="mt-2"><span style={{ color: 'hsl(var(--ink-muted))' }}>// Initialize quantum processor</span></div>
+              <div><span style={{ color: 'hsl(var(--sage))' }}>const</span> engine = <span style={{ color: 'hsl(var(--accent))' }}>new</span> NeuralNet();</div>
+              <div className="mt-2">engine.optimize({'{'}</div>
+              <div className="pl-4">scale: <span style={{ color: 'hsl(var(--sage))' }}>'infinite'</span>,</div>
+              <div className="pl-4">latency: <span style={{ color: 'hsl(var(--accent))' }}>0.01</span></div>
+              <div>{'}'});</div>
             </div>
           </div>
 
-          {/* Right Visual */}
-          <div className="relative">
-            {/* Floating Dashboard UI Mockup */}
-            <div className="relative animate-float">
-              <div className="glass-strong rounded-3xl p-8 shadow-2xl">
-                <div className="space-y-6">
-                  {/* Header */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-3 h-3 bg-red-500 rounded-full" />
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-                      <div className="w-3 h-3 bg-green-500 rounded-full" />
-                    </div>
-                    <div className="text-sm text-gray-500">vixora-dashboard</div>
-                  </div>
-
-                  {/* Dashboard Content */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
-                      <div className="text-2xl font-bold text-blue-900">AI Solutions</div>
-                      <div className="text-sm text-blue-700 mt-2">Machine Learning & Automation</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6">
-                      <div className="text-2xl font-bold text-purple-900">Web Platforms</div>
-                      <div className="text-sm text-purple-700 mt-2">Scalable Architecture</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6">
-                      <div className="text-2xl font-bold text-green-900">SaaS Development</div>
-                      <div className="text-sm text-green-700 mt-2">Enterprise Solutions</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6">
-                      <div className="text-2xl font-bold text-orange-900">UI/UX Design</div>
-                      <div className="text-sm text-orange-700 mt-2">Premium Experiences</div>
-                    </div>
-                  </div>
-
-                  {/* Analytics Chart */}
-                  <div className="bg-gray-50 rounded-2xl p-6">
-                    <div className="text-sm font-semibold text-gray-700 mb-4">Performance Analytics</div>
-                    <div className="flex items-end space-x-2 h-24">
-                      <div className="w-8 bg-blue-400 rounded-t" style={{ height: '60%' }} />
-                      <div className="w-8 bg-blue-500 rounded-t" style={{ height: '80%' }} />
-                      <div className="w-8 bg-purple-400 rounded-t" style={{ height: '45%' }} />
-                      <div className="w-8 bg-purple-500 rounded-t" style={{ height: '90%' }} />
-                      <div className="w-8 bg-blue-400 rounded-t" style={{ height: '70%' }} />
-                      <div className="w-8 bg-blue-500 rounded-t" style={{ height: '85%' }} />
-                    </div>
-                  </div>
+          {/* Server Metrics Card */}
+          <div className="absolute bottom-[40%] right-[30%] w-[240px] rounded-xl shadow-2xl backdrop-blur-md p-4 transition-transform duration-75"
+            style={{
+              background: 'hsla(32, 30%, 94%, 0.85)',
+              border: '1px solid hsl(var(--border))',
+              transform: `translateY(${scrollY * -0.2}px) rotate(${-2 + scrollY * -0.01}deg)`,
+            }}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <Database className="w-4 h-4" style={{ color: 'hsl(var(--accent))' }} />
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider" style={{ color: 'hsl(var(--ink))' }}>System Live</span>
+              <div className="status-live ml-auto" />
+            </div>
+            <div className="space-y-3">
+              <div>
+                <div className="flex justify-between text-[10px] font-mono mb-1" style={{ color: 'hsl(var(--ink-muted))' }}>
+                  <span>Global Requests</span>
+                  <span style={{ color: 'hsl(var(--ink))' }}>1.2M/s</span>
+                </div>
+                <div className="h-1.5 w-full rounded-full overflow-hidden" style={{ background: 'hsl(var(--border))' }}>
+                  <div className="h-full rounded-full" style={{ width: '85%', background: 'hsl(var(--ink))' }} />
                 </div>
               </div>
-
-              {/* Floating Elements */}
-              <div className="absolute -top-4 -right-4 glass-strong rounded-2xl p-4 animate-pulse-glow">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-sm font-semibold">Live</span>
-                </div>
-              </div>
-
-              <div className="absolute -bottom-4 -left-4 glass-strong rounded-2xl p-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-gradient">4.9/5</div>
-                  <div className="text-xs text-gray-600">Client Rating</div>
+              <div>
+                <div className="flex justify-between text-[10px] font-mono mb-1" style={{ color: 'hsl(var(--ink-muted))' }}>
+                  <span>Uptime</span>
+                  <span style={{ color: 'hsl(var(--sage))' }}>99.999%</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+
+        {/* Main Content */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 w-full pt-40 pb-20 lg:pb-28 transition-transform duration-75"
+          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+        >
+          {/* Top line indicator */}
+          <div className="reveal reveal-d1 mb-8 flex items-center gap-4">
+            <Zap className="w-4 h-4" style={{ color: 'hsl(var(--accent))' }} />
+            <span className="text-caption">Engineering The Future</span>
+            <div className="h-px w-24" style={{ background: 'hsl(var(--border))' }} />
+            <span className="text-caption font-mono hidden sm:inline-block" style={{ color: 'hsl(var(--accent))' }}>SYS.ONLINE</span>
+          </div>
+
+          {/* Headline — massive serif with Typewriter */}
+          <h1 className="text-display reveal reveal-d2 max-w-5xl"
+            style={{ fontSize: 'clamp(2.5rem, 7vw, 6.5rem)', lineHeight: 1.1 }}
+          >
+            <span className="block">We engineer</span>
+            <span className="block h-[1.2em] relative text-serif-accent" style={{ fontWeight: 400 }}>
+              {techWords[wordIdx].substring(0, charIdx)}
+              <span className="animate-pulse absolute" style={{ width: '4px', height: '80%', background: 'hsl(var(--accent))', top: '10%', marginLeft: '8px' }} />
+            </span>
+            <span className="block mt-2">that matter.</span>
+          </h1>
+
+          {/* Subtitle + CTAs */}
+          <div className="mt-12 grid lg:grid-cols-12 gap-10 items-end">
+            <div className="reveal reveal-d3 lg:col-span-7">
+              <p className="text-body text-lg max-w-xl">
+                Vixora partners with ambitious companies to build scalable technical infrastructure,
+                AI-powered algorithms, and flawless digital experiences that dominate markets.
+              </p>
+            </div>
+
+            <div className="reveal reveal-d4 lg:col-span-5 flex flex-col sm:flex-row gap-4 lg:justify-end">
+              <button
+                id="hero-start-project-btn"
+                className="btn-primary flex items-center justify-center gap-2"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Start Your Project <Terminal className="w-4 h-4" />
+              </button>
+              <button id="hero-view-work-btn" className="btn-outline flex items-center justify-center gap-2" onClick={() => scrollTo('work')}>
+                <GitBranch className="w-4 h-4" /> System Architecture
+              </button>
+            </div>
+          </div>
+
+          {/* Tech Stats Strip */}
+          <div className="reveal reveal-d5 mt-16 pt-8 grid grid-cols-2 md:grid-cols-4 gap-8"
+            style={{ borderTop: '1px solid hsl(var(--border))' }}
+          >
+            {[
+              { val: '0ms', label: 'Downtime', icon: ShieldCheck },
+              { val: '2M+', label: 'API Requests/sec', icon: Zap },
+              { val: '150+', label: 'Deployments', icon: GitBranch },
+              { val: '5+', label: 'Years of Engineering', icon: Terminal },
+            ].map((s, i) => (
+              <div key={i} className="group cursor-default">
+                <div className="flex items-center gap-2 mb-2">
+                  <s.icon className="w-4 h-4 transition-colors group-hover:text-accent" style={{ color: 'hsl(var(--ink-muted))' }} />
+                  <div className="text-3xl font-serif font-semibold tracking-tight" style={{ color: 'hsl(var(--ink))' }}>
+                    {s.val}
+                  </div>
+                </div>
+                <div className="text-caption">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <StartProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 };
 

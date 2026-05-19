@@ -13,36 +13,18 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'hsl(var(--bg))' }}>
       <Navbar />
       <Hero />
-      <div className="relative">
-        <TrustedBy />
-      </div>
-      <div className="relative">
-        <About />
-      </div>
-      <div className="relative">
-        <Services />
-      </div>
-      <div className="relative">
-        <Work />
-      </div>
-      <div className="relative">
-        <Process />
-      </div>
-      <div className="relative">
-        <Technology />
-      </div>
-      <div className="relative">
-        <Testimonials />
-      </div>
-      <div className="relative">
-        <FinalCTA />
-      </div>
-      <div className="relative">
-        <Contact />
-      </div>
+      <TrustedBy />
+      <About />
+      <Services />
+      <Work />
+      <Process />
+      <Technology />
+      <Testimonials />
+      <FinalCTA />
+      <Contact />
       <Footer />
     </div>
   );
