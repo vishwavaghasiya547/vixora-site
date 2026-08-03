@@ -1,404 +1,771 @@
-import type { Metadata } from 'next';
+'use client';
+
 import Link from 'next/link';
 import {
-    ArrowLeft,
-    ArrowRight,
-    Lightbulb,
-    Target,
-    Users,
-    Globe,
-    Zap,
-    Heart,
-    Shield,
-    TrendingUp,
-    Star,
-    CheckCircle,
-    Brain,
-    Code,
-    Palette,
+  ArrowLeft,
+  ArrowRight,
+  Lightbulb,
+  Target,
+  Users,
+  Globe,
+  Zap,
+  Heart,
+  Shield,
+  TrendingUp,
+  Star,
+  CheckCircle,
+  Brain,
+  Code,
+  Palette,
+  Terminal,
+  GitBranch,
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FinalCTA from '@/components/FinalCTA';
+import StartProjectModal from '@/components/StartProjectModal';
 
-export const metadata: Metadata = {
-    title: 'About Vixora — Engineering Intelligent Digital Experiences',
-    description:
-        'Learn about Vixora — our story, mission, values, team, and what drives us to build exceptional digital products.',
-};
-
-/* ─── Data ─────────────────────────────────────── */
+/* ─── Data (preserved from original) ──────────────── */
 
 const stats = [
-    { value: '150+', label: 'Projects Delivered', icon: CheckCircle },
-    { value: '50+', label: 'Team Members', icon: Users },
-    { value: '98%', label: 'Client Retention', icon: Heart },
-    { value: '5+', label: 'Years of Excellence', icon: Star },
-    { value: '40+', label: 'Countries Served', icon: Globe },
-    { value: '$200M+', label: 'Client Revenue Generated', icon: TrendingUp },
+  { value: '150+', label: 'Projects Delivered' },
+  { value: '98%', label: 'Client Retention' },
+  { value: '5+',  label: 'Years of Excellence' },
+  { value: '40+', label: 'Countries Served' },
+  { value: '$200M+', label: 'Client Revenue Generated' },
 ];
 
 const values = [
-    {
-        title: "Innovation First",
-        description: "We push the boundaries of what is possible. Cutting-edge technology and creative problem-solving are the backbone of everything we build.",
-        icon: Lightbulb,
-        color: "bg-amber-50 text-amber-600",
-    },
-    {
-        title: "Quality Excellence",
-        description: "Every pixel, every line of code is crafted with precision. We refuse to ship anything we would not be proud to put our name on.",
-        icon: Target,
-        color: "bg-blue-50 text-blue-600",
-    },
-    {
-        title: "Client Success",
-        description: "Your success is our KPI. We go beyond deliverables and become embedded partners in your growth journey.",
-        icon: Users,
-        color: "bg-green-50 text-green-600",
-    },
-    {
-        title: "Radical Transparency",
-        description: "No surprises. We communicate openly about timelines, challenges, and trade-offs so you are always in the driver seat.",
-        icon: Shield,
-        color: "bg-purple-50 text-purple-600",
-    },
-    {
-        title: "Continuous Growth",
-        description: "We invest heavily in learning and staying ahead of the curve so our clients always get solutions built for tomorrow.",
-        icon: TrendingUp,
-        color: "bg-rose-50 text-rose-600",
-    },
-    {
-        title: "Speed with Substance",
-        description: "We move fast without breaking things. Iterative delivery with an unrelenting focus on the fundamentals.",
-        icon: Zap,
-        color: "bg-indigo-50 text-indigo-600",
-    },
+  {
+    num: '01',
+    title: 'Innovation First',
+    description:
+      'We push the boundaries of what is possible. Cutting-edge technology and creative problem-solving are the backbone of everything we build.',
+    icon: Lightbulb,
+  },
+  {
+    num: '02',
+    title: 'Quality Excellence',
+    description:
+      'Every pixel, every line of code is crafted with precision. We refuse to ship anything we would not be proud to put our name on.',
+    icon: Target,
+  },
+  {
+    num: '03',
+    title: 'Client Success',
+    description:
+      'Your success is our KPI. We go beyond deliverables and become embedded partners in your growth journey.',
+    icon: Users,
+  },
+  {
+    num: '04',
+    title: 'Radical Transparency',
+    description:
+      'No surprises. We communicate openly about timelines, challenges, and trade-offs so you are always in the driver seat.',
+    icon: Shield,
+  },
+  {
+    num: '05',
+    title: 'Continuous Growth',
+    description:
+      'We invest heavily in learning and staying ahead of the curve so our clients always get solutions built for tomorrow.',
+    icon: TrendingUp,
+  },
+  {
+    num: '06',
+    title: 'Speed with Substance',
+    description:
+      'We move fast without breaking things. Iterative delivery with an unrelenting focus on the fundamentals.',
+    icon: Zap,
+  },
 ];
 
 const team = [
-    {
-        name: 'Aarav Shah',
-        role: 'CEO & Co-Founder',
-        description: 'Visionary leader with 10+ years scaling digital products across fintech and SaaS.',
-        initials: 'AS',
-        gradient: 'from-[hsl(var(--ink))] to-[hsl(var(--ink-light))]',
-    },
-    {
-        name: 'Priya Mehta',
-        role: 'CTO & Co-Founder',
-        description: 'Full-stack architect obsessed with systems design, AI, and developer experience.',
-        initials: 'PM',
-        gradient: 'from-[hsl(var(--ink))] to-[hsl(var(--ink-muted))]',
-    },
-    {
-        name: 'Lucas Oliveira',
-        role: 'Head of Design',
-        description: 'Former Figma design lead. Crafts experiences that feel intuitive and look stunning.',
-        initials: 'LO',
-        gradient: 'from-[hsl(var(--ink-light))] to-[hsl(var(--ink-faint))]',
-    },
-    {
-        name: 'Sara Kim',
-        role: 'Head of Engineering',
-        description: 'Systems thinker specialising in scalable backend infrastructure and DevOps.',
-        initials: 'SK',
-        gradient: 'from-[hsl(var(--ink))] to-[hsl(var(--ink-muted))]',
-    },
-    {
-        name: 'James Okonkwo',
-        role: 'AI & ML Lead',
-        description: 'PhD in Machine Learning with a knack for turning research into production-ready products.',
-        initials: 'JO',
-        gradient: 'from-[hsl(var(--ink))] to-[hsl(var(--ink-faint))]',
-    },
-    {
-        name: 'Ananya Patel',
-        role: 'Client Success Director',
-        description: 'Ensures every client relationship exceeds expectations — from kick-off to delivery and beyond.',
-        initials: 'AP',
-        gradient: 'from-[hsl(var(--ink-light))] to-[hsl(var(--border-strong))]',
-    },
+  {
+    name: 'Aarav Shah',
+    role: 'CEO & Co-Founder',
+    description: 'Visionary leader with 10+ years scaling digital products across fintech and SaaS.',
+    initials: 'AS',
+  },
+  {
+    name: 'Priya Mehta',
+    role: 'CTO & Co-Founder',
+    description: 'Full-stack architect obsessed with systems design, AI, and developer experience.',
+    initials: 'PM',
+  },
+  {
+    name: 'Lucas Oliveira',
+    role: 'Head of Design',
+    description: 'Former Figma design lead. Crafts experiences that feel intuitive and look stunning.',
+    initials: 'LO',
+  },
+  {
+    name: 'Sara Kim',
+    role: 'Head of Engineering',
+    description: 'Systems thinker specialising in scalable backend infrastructure and DevOps.',
+    initials: 'SK',
+  },
+  {
+    name: 'James Okonkwo',
+    role: 'AI & ML Lead',
+    description: 'PhD in Machine Learning with a knack for turning research into production-ready products.',
+    initials: 'JO',
+  },
+  {
+    name: 'Ananya Patel',
+    role: 'Client Success Director',
+    description: 'Ensures every client relationship exceeds expectations — from kick-off to delivery and beyond.',
+    initials: 'AP',
+  },
 ];
 
 const timeline = [
-    {
-        year: '2019',
-        title: 'Founded in San Francisco',
-        description:
-            'Vixora started as a two-person studio with one goal: build digital products that actually move the needle.',
-    },
-    {
-        year: '2020',
-        title: 'First 20 Clients & AI Pivot',
-        description:
-            'We hit our first 20 clients and doubled down on AI-powered solutions as the market began to shift.',
-    },
-    {
-        year: '2021',
-        title: 'Team Grows to 15',
-        description:
-            'Brought on design, engineering, and strategy specialists. Launched our SaaS Platform practice.',
-    },
-    {
-        year: "2022",
-        title: "$50M in Client Revenue",
-        description: "Our clients collectively generated over $50M in revenue using products we built. A milestone we are proud of.",
-    },
-    {
-        year: '2023',
-        title: 'Global Expansion',
-        description:
-            'Opened delivery hubs in London and Singapore. Now serving clients across 40+ countries.',
-    },
-    {
-        year: '2024',
-        title: 'Vixora 2.0',
-        description:
-            'Launched our new AI-first service model and grew to 50+ team members. The best chapter yet.',
-    },
+  {
+    year: '2019',
+    title: 'Founded',
+    description:
+      'Vixora started as a two-person studio with one goal: build digital products that actually move the needle.',
+  },
+  {
+    year: '2020',
+    title: 'AI Pivot',
+    description:
+      'We hit our first 20 clients and doubled down on AI-powered solutions as the market began to shift.',
+  },
+  {
+    year: '2021',
+    title: 'Team of 15',
+    description:
+      'Brought on design, engineering, and strategy specialists. Launched our SaaS Platform practice.',
+  },
+  {
+    year: '2022',
+    title: '$50M in Client Revenue',
+    description:
+      'Our clients collectively generated over $50M in revenue using products we built. A milestone we are proud of.',
+  },
+  {
+    year: '2023',
+    title: 'Global Expansion',
+    description:
+      'Opened delivery hubs in London and Singapore. Now serving clients across 40+ countries.',
+  },
+  {
+    year: '2024',
+    title: 'Vixora 2.0',
+    description:
+      'Launched our AI-first service model and grew to 50+ team members. The best chapter yet.',
+  },
 ];
 
-const expertise = [
-    { icon: Brain, label: 'AI & Machine Learning' },
-    { icon: Code, label: 'Web Development' },
-    { icon: Zap, label: 'SaaS Platforms' },
-    { icon: Palette, label: 'UI/UX Design' },
+const pillars = [
+  {
+    label: 'Engineering depth',
+    body: 'We hire senior engineers who have shipped at scale — not generalists who skim the surface.',
+  },
+  {
+    label: 'Product thinking',
+    body: 'We ask why before we ask how. Every feature has a reason, every decision has a rationale.',
+  },
+  {
+    label: 'Long-term alignment',
+    body: 'We structure engagements as partnerships — your roadmap, your KPIs, your success.',
+  },
 ];
 
-/* ─── Page ─────────────────────────────────────── */
+/* ─── Page ─────────────────────────────────────────── */
 
 export default function AboutPage() {
-    return (
-        <div className="min-h-screen" style={{ background: 'hsl(var(--bg))' }}>
-            <Navbar />
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [scrollY, setScrollY]         = useState(0);
 
-            {/* ── Hero ─────────────────────────────────── */}
-            <section className="pt-32 pb-20" style={{ background: 'hsl(var(--bg))' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <Link
-                        href="/#about"
-                        className="inline-flex items-center gap-2 text-sm text-ink-muted hover:text-ink transition-colors mb-10 group"
-                    >
-                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                        Back to Home
-                    </Link>
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-                    <div className="grid lg:grid-cols-2 gap-16 items-end">
-                        <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 bg-bg-alt border border-border rounded-full px-4 py-2 text-sm font-medium text-ink-light">
-                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                Our Story
-                            </div>
-                            <h1 className="text-6xl lg:text-8xl font-bold text-ink leading-none tracking-tight">
-                                We are<br />
-                                <span className="text-ink-faint">Vixora.</span>
-                            </h1>
-                            <p className="text-xl text-ink-light leading-relaxed max-w-lg">
-                                A team of technologists, designers, and strategists obsessed with building digital products that genuinely change how businesses operate and how users experience the world.
-                            </p>
-                        </div>
+  return (
+    <div className="min-h-screen" style={{ background: 'hsl(var(--bg))' }}>
+      <Navbar />
 
-                        <div className="grid grid-cols-2 gap-4">
-                            {expertise.map(({ icon: Icon, label }) => (
-                                <div
-                                    key={label}
-                                    className="card-elevated flex flex-col items-start gap-3 p-5"
-                                >
-                                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'hsl(var(--accent))' }}>
-                                        <Icon className="w-5 h-5 text-surface" />
-                                    </div>
-                                    <span className="font-semibold text-ink text-sm">{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+      {/* ═══════════════════════════════════════════════
+          HERO — editorial brand statement
+      ═══════════════════════════════════════════════ */}
+      <section
+        className="relative pt-36 lg:pt-52 pb-24 lg:pb-36 overflow-hidden"
+        style={{ background: 'hsl(var(--bg))' }}
+      >
+        {/* Subtle engineering grid — same as Hero.tsx */}
+        <div
+          className="absolute inset-0 opacity-[0.35] pointer-events-none"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+              linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px)
+            `,
+            backgroundSize: '48px 48px',
+            transform: `translateY(${scrollY * 0.08}px)`,
+          }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+
+          {/* Back link */}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 mb-14 group"
+            style={{ color: 'hsl(var(--ink-muted))' }}
+          >
+            <ArrowLeft
+              className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1"
+            />
+            <span className="font-mono text-[11px] uppercase tracking-widest group-hover:text-ink transition-colors">
+              Back to Home
+            </span>
+          </Link>
+
+          {/* Section label */}
+          <div className="flex items-center gap-4 mb-8 scroll-reveal">
+            <span className="text-caption">Our Story</span>
+            <div className="h-px w-16" style={{ background: 'hsl(var(--border))' }} />
+            <span className="flex items-center gap-1.5">
+              <span className="status-live" />
+              <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: 'hsl(var(--sage))' }}>
+                Est. 2019
+              </span>
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1
+            className="text-display reveal reveal-d1 max-w-4xl"
+            style={{ fontSize: 'clamp(2.75rem, 7vw, 6rem)', lineHeight: 1.05 }}
+          >
+            We engineer products
+            <br />
+            that <span className="text-serif-accent">matter.</span>
+          </h1>
+
+          {/* Sub-grid: description + quick-stats */}
+          <div className="mt-14 grid lg:grid-cols-12 gap-10 reveal reveal-d2">
+            <div className="lg:col-span-5">
+              <p className="text-body text-lg leading-relaxed">
+                Vixora is a product engineering company built by technologists who were tired of
+                watching great ideas die in execution. We partner with ambitious founders and
+                enterprises to ship AI platforms, SaaS products, and digital experiences that
+                change how industries operate.
+              </p>
+              <div className="flex flex-wrap gap-3 mt-8">
+                <button
+                  className="btn-primary flex items-center gap-2"
+                  onClick={() => setIsModalOpen(true)}
+                  id="about-start-project-btn"
+                >
+                  Start a Project <ArrowRight className="w-4 h-4" />
+                </button>
+                <Link
+                  href="/#work"
+                  className="btn-outline flex items-center gap-2"
+                  id="about-view-work-btn"
+                >
+                  <GitBranch className="w-4 h-4" /> View Our Work
+                </Link>
+              </div>
+            </div>
+
+            {/* Inline stat strip */}
+            <div className="lg:col-span-7 grid grid-cols-2 lg:grid-cols-3">
+              {stats.map((s, i) => (
+                <div
+                  key={s.label}
+                  className={`py-6 px-6 scroll-reveal delay-${Math.min((i + 1) * 100, 400)}`}
+                  style={{
+                    borderTop: i >= 2 ? '1px solid hsl(var(--border))' : undefined,
+                    borderLeft: i % 2 !== 0 ? '1px solid hsl(var(--border))' : undefined,
+                  }}
+                >
+                  <div
+                    className="font-serif font-bold leading-none mb-1"
+                    style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', color: 'hsl(var(--ink))' }}
+                  >
+                    {s.value}
+                  </div>
+                  <div className="text-caption">{s.label}</div>
                 </div>
-            </section>
-
-            {/* ── Dark banner ──────────────────────────── */}
-            <section className="py-20 text-surface" style={{ background: 'hsl(var(--ink))' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="grid grid-cols-2 lg:grid-cols-6 gap-8 items-center">
-                        {stats.map((stat, i) => {
-                            const Icon = stat.icon;
-                            return (
-                                <div key={i} className="text-center space-y-2 col-span-1">
-                                    <Icon className="w-5 h-5 text-ink-faint mx-auto" />
-                                    <div className="text-3xl lg:text-4xl font-bold">{stat.value}</div>
-                                    <div className="text-xs text-ink-faint leading-tight">{stat.label}</div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── Mission & Vision ─────────────────────── */}
-            <section className="py-24" style={{ background: 'hsl(var(--surface-warm))' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="grid lg:grid-cols-2 gap-16">
-                        {/* Mission */}
-                        <div className="card-elevated p-10 space-y-5">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'hsl(var(--accent))' }}>
-                                <Target className="w-6 h-6 text-surface" />
-                            </div>
-                            <h2 className="text-3xl font-bold text-ink">Our Mission</h2>
-                            <p className="text-ink-light leading-relaxed text-lg">
-                                To empower ambitious businesses with intelligent digital solutions that drive growth, create efficiency, and unlock competitive advantage — in a world that never stops evolving.
-                            </p>
-                            <div className="pt-2 space-y-3">
-                                {['We build for scale', 'We prioritize impact over aesthetics', 'We ship, learn, and iterate'].map((item) => (
-                                    <div key={item} className="flex items-center gap-3 text-sm text-ink-light">
-                                        <CheckCircle className="w-4 h-4 text-ink flex-shrink-0" />
-                                        {item}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Vision */}
-                        <div className="card-elevated p-10 space-y-5">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'hsl(var(--accent))' }}>
-                                <Globe className="w-6 h-6 text-surface" />
-                            </div>
-                            <h2 className="text-3xl font-bold text-ink">Our Vision</h2>
-                            <p className="text-ink-light leading-relaxed text-lg">
-                                To be the global benchmark for digital excellence — a studio synonymous with quality, speed, and innovation that consistently sets new standards in AI-powered and human-centered technology.
-                            </p>
-                            <div className="pt-2 space-y-3">
-                                {['Be the first call, not the last resort', 'Lead the AI product design frontier', 'Create lasting partnerships, not transactions'].map((item) => (
-                                    <div key={item} className="flex items-center gap-3 text-sm text-ink-light">
-                                        <CheckCircle className="w-4 h-4 text-ink flex-shrink-0" />
-                                        {item}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── Story / Timeline ─────────────────────── */}
-            <section className="py-24" style={{ background: 'hsl(var(--surface))' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-5xl font-bold text-ink mb-4">Our Journey</h2>
-                        <p className="text-ink-light text-lg max-w-2xl mx-auto">
-                            From a two-person studio to a global team — here's how we got here.
-                        </p>
-                    </div>
-
-                    <div className="relative">
-                        {/* Vertical line */}
-                        <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-px bg-gray-200 hidden lg:block" />
-
-                        <div className="space-y-12">
-                            {timeline.map((item, i) => (
-                                <div
-                                    key={i}
-                                    className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-start lg:items-center ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                                        }`}
-                                >
-                                    {/* Content */}
-                                    <div className="flex-1">
-                                        <div className={`card-elevated p-8 ${i % 2 !== 0 ? 'lg:text-right' : ''}`}>
-                                            <span className="inline-block text-xs font-bold uppercase tracking-widest text-ink-faint mb-3 bg-bg-alt border border-border rounded-full px-3 py-1">
-                                                {item.year}
-                                            </span>
-                                            <h3 className="text-xl font-bold text-ink mb-2">{item.title}</h3>
-                                            <p className="text-ink-light leading-relaxed">{item.description}</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Center dot */}
-                                    <div className="hidden lg:flex w-5 h-5 rounded-full border-4 border-surface shadow-md flex-shrink-0" style={{ background: 'hsl(var(--accent))' }} />
-
-                                    {/* Spacer */}
-                                    <div className="flex-1 hidden lg:block" />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── Values ───────────────────────────────── */}
-            <section className="py-24" style={{ background: 'hsl(var(--surface-warm))' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-5xl font-bold text-ink mb-4">What Drives Us</h2>
-                        <p className="text-ink-light text-lg max-w-2xl mx-auto">
-                            These aren't just words on a wall — they're the principles we hold ourselves accountable to every single day.
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {values.map((v, i) => {
-                            const Icon = v.icon;
-                            return (
-                                <div key={i} className="card-featured space-y-4 group hover:-translate-y-1 transition-transform duration-200">
-                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${v.color}`}>
-                                        <Icon className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-ink">{v.title}</h3>
-                                    <p className="text-ink-light leading-relaxed text-sm">{v.description}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── Team ─────────────────────────────────── */}
-            <section className="py-24" style={{ background: 'hsl(var(--surface))' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-5xl font-bold text-ink mb-4">The Team Behind Vixora</h2>
-                        <p className="text-ink-light text-lg max-w-2xl mx-auto">
-                            A hand-picked group of exceptional humans who happen to be world-class at what they do.
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {team.map((member, i) => (
-                            <div key={i} className="card-featured space-y-5 group">
-                                {/* Avatar */}
-                                <div
-                                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${member.gradient} flex items-center justify-center text-surface font-bold text-lg`}
-                                >
-                                    {member.initials}
-                                </div>
-                                <div>
-                                    <h3 className="text-lg font-bold text-ink">{member.name}</h3>
-                                    <p className="text-sm font-medium text-ink-muted mb-3">{member.role}</p>
-                                    <p className="text-sm text-ink-light leading-relaxed">{member.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Hiring banner */}
-                    <div className="mt-16 rounded-2xl p-10 text-surface text-center" style={{ background: 'hsl(var(--accent))' }}>
-                        <h3 className="text-2xl font-bold mb-3">We're always hiring exceptional people.</h3>
-                        <p className="text-surface opacity-80 mb-6 max-w-xl mx-auto">
-                            Think you belong here? We'd love to hear from you — even if there's no open role that fits perfectly.
-                        </p>
-                        <Link
-                            href="/#contact"
-                            className="inline-flex items-center gap-2 bg-surface px-6 py-3 rounded-lg font-semibold hover:bg-bg-alt transition-colors" style={{ color: 'hsl(var(--accent))' }}
-                        >
-                            Say Hello <ArrowRight className="w-4 h-4" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── CTA ──────────────────────────────────── */}
-            <FinalCTA />
-
-            <Footer />
+              ))}
+            </div>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          COMPANY STORY — editorial prose layout
+      ═══════════════════════════════════════════════ */}
+      <section className="section-pad" style={{ background: 'hsl(var(--surface))' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="flex items-center gap-4 mb-16 scroll-reveal">
+            <span className="text-caption">How We Got Here</span>
+            <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+          </div>
+
+          {/* Pull-quote + body text */}
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 mb-20">
+            <div className="lg:col-span-5 scroll-reveal delay-100">
+              <p
+                className="text-display font-serif font-semibold leading-tight"
+                style={{ fontSize: 'clamp(1.6rem, 3vw, 2.25rem)', color: 'hsl(var(--ink))' }}
+              >
+                &ldquo;Built by engineers who were tired of watching great ideas die in
+                poor execution.&rdquo;
+              </p>
+            </div>
+            <div className="lg:col-span-7 space-y-5 scroll-reveal delay-200">
+              <p className="text-body leading-relaxed">
+                Vixora started in 2019 as a two-person studio with a simple conviction: most software
+                agencies optimise for billable hours, not product outcomes. We built Vixora differently
+                — embedding ourselves in our clients&apos; problems, shipping iteratively, and measuring
+                success by the metrics that matter to the business.
+              </p>
+              <p className="text-body leading-relaxed">
+                Today we are a team of 50+ engineers, designers, and product strategists who have
+                collectively shipped AI platforms, multi-sided marketplaces, SaaS analytics tools,
+                and automation systems across industries — from productivity software to voice AI
+                to reputation management.
+              </p>
+              <p className="text-body leading-relaxed">
+                We do not take on every project. We take on the right ones.
+              </p>
+            </div>
+          </div>
+
+          {/* Timeline — left-rail design */}
+          <div className="relative">
+            <div className="flex items-center gap-4 mb-12 scroll-reveal">
+              <span className="text-caption">Journey</span>
+              <div className="h-px w-12" style={{ background: 'hsl(var(--border))' }} />
+            </div>
+
+            <div className="relative pl-0 lg:pl-8">
+              {/* Vertical rail */}
+              <div
+                className="absolute left-0 top-0 bottom-0 w-px hidden lg:block"
+                style={{ background: 'hsl(var(--border))' }}
+              />
+
+              <div className="space-y-0">
+                {timeline.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`group relative flex flex-col lg:flex-row gap-4 lg:gap-12 py-8 scroll-reveal delay-${Math.min((i + 1) * 100, 400)}`}
+                    style={{ borderTop: i === 0 ? 'none' : '1px solid hsl(var(--border))' }}
+                  >
+                    {/* Rail dot */}
+                    <div
+                      className="absolute left-[-4.5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full hidden lg:block transition-transform duration-300 group-hover:scale-150"
+                      style={{
+                        background: 'hsl(var(--accent))',
+                        outline: '3px solid hsl(var(--surface))',
+                      }}
+                    />
+
+                    {/* Year */}
+                    <div className="lg:w-20 shrink-0">
+                      <span
+                        className="font-mono text-xs tracking-widest font-semibold"
+                        style={{ color: 'hsl(var(--accent))' }}
+                      >
+                        {item.year}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 lg:grid lg:grid-cols-3 lg:gap-8 items-baseline">
+                      <h3
+                        className="text-subhead font-semibold mb-2 lg:mb-0 transition-colors duration-300 group-hover:text-accent"
+                        style={{ color: 'hsl(var(--ink))' }}
+                      >
+                        {item.title}
+                      </h3>
+                      <p
+                        className="text-sm leading-relaxed lg:col-span-2"
+                        style={{ color: 'hsl(var(--ink-light))' }}
+                      >
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          MISSION & VISION — asymmetric editorial layout
+      ═══════════════════════════════════════════════ */}
+      <section className="section-pad" style={{ background: 'hsl(var(--bg-alt))' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="flex items-center gap-4 mb-16 scroll-reveal">
+            <span className="text-caption">Purpose</span>
+            <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+          </div>
+
+          {/* Mission — wide statement */}
+          <div
+            className="rounded-2xl p-10 lg:p-16 mb-6 scroll-reveal delay-100"
+            style={{ background: 'hsl(var(--ink))' }}
+          >
+            <div className="flex items-center gap-3 mb-8">
+              <span
+                className="font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full"
+                style={{
+                  color: 'hsla(0,0%,100%,0.5)',
+                  border: '1px solid hsla(0,0%,100%,0.12)',
+                }}
+              >
+                Mission
+              </span>
+            </div>
+
+            <p
+              className="font-serif font-semibold leading-tight mb-10"
+              style={{
+                fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)',
+                color: 'hsl(var(--surface))',
+                maxWidth: '42ch',
+              }}
+            >
+              To empower ambitious businesses with intelligent digital solutions that drive growth,
+              create efficiency, and unlock competitive advantage.
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6" style={{ borderTop: '1px solid hsla(0,0%,100%,0.08)', paddingTop: '2.5rem' }}>
+              {['We build for scale', 'We prioritize impact over aesthetics', 'We ship, learn, and iterate'].map(
+                (item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <CheckCircle
+                      className="w-4 h-4 flex-shrink-0 mt-0.5"
+                      style={{ color: 'hsl(var(--accent))' }}
+                    />
+                    <span className="text-sm leading-relaxed" style={{ color: 'hsla(0,0%,100%,0.6)' }}>
+                      {item}
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Vision — lighter companion */}
+          <div
+            className="rounded-2xl p-10 lg:p-14 scroll-reveal delay-200"
+            style={{
+              background: 'hsl(var(--surface))',
+              border: '1px solid hsl(var(--border))',
+            }}
+          >
+            <div className="grid lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-4">
+                <span
+                  className="font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-6"
+                  style={{
+                    color: 'hsl(var(--accent))',
+                    background: 'hsl(var(--accent-soft))',
+                    border: '1px solid hsl(var(--accent) / 0.2)',
+                  }}
+                >
+                  Vision
+                </span>
+                <h2
+                  className="text-heading"
+                  style={{ fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: 'hsl(var(--ink))' }}
+                >
+                  The global benchmark for digital excellence.
+                </h2>
+              </div>
+              <div className="lg:col-span-8 space-y-5">
+                <p className="text-body leading-relaxed">
+                  A studio synonymous with quality, speed, and innovation — one that consistently
+                  sets new standards in AI-powered and human-centered technology.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-4 pt-2">
+                  {[
+                    'Be the first call, not the last resort',
+                    'Lead the AI product design frontier',
+                    'Create lasting partnerships, not transactions',
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-2.5">
+                      <div
+                        className="w-1 h-1 rounded-full mt-2 flex-shrink-0"
+                        style={{ background: 'hsl(var(--accent))' }}
+                      />
+                      <span className="text-sm leading-relaxed" style={{ color: 'hsl(var(--ink-light))' }}>
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          VALUES — numbered editorial rows (matches Services pattern)
+      ═══════════════════════════════════════════════ */}
+      <section className="section-pad" style={{ background: 'hsl(var(--surface))' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="flex items-center gap-4 mb-6 scroll-reveal">
+            <span className="text-caption">What Drives Us</span>
+            <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-16 mb-14">
+            <h2
+              className="text-display scroll-reveal delay-100"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}
+            >
+              Principles we hold{' '}
+              <span className="text-serif-accent">ourselves</span> to
+            </h2>
+            <div className="flex items-end scroll-reveal delay-200">
+              <p className="text-body max-w-lg">
+                These aren&apos;t just words on a wall — they are the standards we hold ourselves
+                accountable to every single day, in every project and every client relationship.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-0">
+            {values.map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <div
+                  key={v.num}
+                  className={`group py-7 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 cursor-default transition-all duration-300 scroll-reveal delay-${Math.min((i + 1) * 100, 500)}`}
+                  style={{ borderTop: '1px solid hsl(var(--border))' }}
+                >
+                  <span
+                    className="font-mono text-xs tracking-widest shrink-0 w-6"
+                    style={{ color: 'hsl(var(--accent))' }}
+                  >
+                    {v.num}
+                  </span>
+
+                  <div
+                    className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:bg-accent-soft"
+                    style={{
+                      background: 'hsl(var(--surface-warm))',
+                      border: '1px solid hsl(var(--border))',
+                    }}
+                  >
+                    <Icon
+                      className="w-4 h-4 transition-colors duration-300"
+                      style={{ color: 'hsl(var(--ink-muted))' }}
+                    />
+                  </div>
+
+                  <h3
+                    className="text-subhead text-base lg:w-52 shrink-0 group-hover:text-accent transition-colors duration-300"
+                    style={{ color: 'hsl(var(--ink))' }}
+                  >
+                    {v.title}
+                  </h3>
+
+                  <p
+                    className="text-sm flex-1 leading-relaxed"
+                    style={{ color: 'hsl(var(--ink-light))' }}
+                  >
+                    {v.description}
+                  </p>
+                </div>
+              );
+            })}
+            <div style={{ borderTop: '1px solid hsl(var(--border))' }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          WHY CHOOSE US — three horizontal pillars
+      ═══════════════════════════════════════════════ */}
+      <section className="section-pad" style={{ background: 'hsl(var(--bg-alt))' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="flex items-center gap-4 mb-16 scroll-reveal">
+            <span className="text-caption">Why Vixora</span>
+            <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-12 items-start">
+            <div className="lg:col-span-4 scroll-reveal delay-100">
+              <h2
+                className="text-display font-serif"
+                style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}
+              >
+                Why clients{' '}
+                <span className="text-serif-accent">choose us</span>
+              </h2>
+              <p className="text-body mt-6">
+                We are not the cheapest option. We are the one that ships on time, communicates
+                clearly, and builds products that outlive the engagement.
+              </p>
+            </div>
+
+            <div className="lg:col-span-8 space-y-0">
+              {pillars.map((p, i) => (
+                <div
+                  key={i}
+                  className={`group flex flex-col lg:flex-row gap-4 lg:gap-10 py-8 cursor-default transition-colors duration-300 scroll-reveal delay-${(i + 1) * 100}`}
+                  style={{ borderTop: '1px solid hsl(var(--border))' }}
+                >
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-widest shrink-0 mt-1"
+                    style={{ color: 'hsl(var(--ink-muted))' }}
+                  >
+                    0{i + 1}
+                  </span>
+                  <div className="flex-1">
+                    <h3
+                      className="text-subhead font-semibold mb-2 group-hover:text-accent transition-colors duration-300 capitalize"
+                      style={{ color: 'hsl(var(--ink))' }}
+                    >
+                      {p.label}
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: 'hsl(var(--ink-light))' }}>
+                      {p.body}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              <div style={{ borderTop: '1px solid hsl(var(--border))' }} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          TEAM — minimal text-forward roster
+      ═══════════════════════════════════════════════ */}
+      <section className="section-pad" style={{ background: 'hsl(var(--surface))' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="flex items-center gap-4 mb-6 scroll-reveal">
+            <span className="text-caption">The Team</span>
+            <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+            <span
+              className="font-mono text-[10px] uppercase tracking-widest"
+              style={{ color: 'hsl(var(--ink-muted))' }}
+            >
+              50+ Members
+            </span>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-16 mb-14">
+            <h2
+              className="text-display scroll-reveal delay-100"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}
+            >
+              The people behind{' '}
+              <span className="text-serif-accent">the work</span>
+            </h2>
+            <div className="flex items-end scroll-reveal delay-200">
+              <p className="text-body max-w-lg">
+                A hand-picked group of exceptional humans who happen to be world-class at what they
+                do — and care deeply about the work they put into the world.
+              </p>
+            </div>
+          </div>
+
+          {/* Roster — horizontal rows */}
+          <div className="space-y-0">
+            {team.map((member, i) => (
+              <div
+                key={member.name}
+                className={`group flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-7 cursor-default transition-all duration-300 scroll-reveal delay-${Math.min((i + 1) * 100, 400)}`}
+                style={{ borderTop: '1px solid hsl(var(--border))' }}
+              >
+                {/* Initials badge */}
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 font-serif font-semibold text-sm transition-all duration-300 group-hover:scale-110"
+                  style={{
+                    background: 'hsl(var(--surface-warm))',
+                    border: '1px solid hsl(var(--border))',
+                    color: 'hsl(var(--ink-muted))',
+                  }}
+                >
+                  {member.initials}
+                </div>
+
+                {/* Name */}
+                <div className="sm:w-44 shrink-0">
+                  <h3
+                    className="font-semibold text-base transition-colors duration-300 group-hover:text-accent"
+                    style={{ color: 'hsl(var(--ink))' }}
+                  >
+                    {member.name}
+                  </h3>
+                </div>
+
+                {/* Role */}
+                <div className="sm:w-52 shrink-0">
+                  <span className="text-caption">{member.role}</span>
+                </div>
+
+                {/* Bio */}
+                <p
+                  className="text-sm flex-1 leading-relaxed"
+                  style={{ color: 'hsl(var(--ink-light))' }}
+                >
+                  {member.description}
+                </p>
+              </div>
+            ))}
+            <div style={{ borderTop: '1px solid hsl(var(--border))' }} />
+          </div>
+
+          {/* Hiring strip */}
+          <div
+            className="mt-14 flex flex-col sm:flex-row items-center justify-between gap-6 px-8 py-7 rounded-2xl scroll-reveal delay-200"
+            style={{
+              background: 'hsl(var(--surface-warm))',
+              border: '1px solid hsl(var(--border))',
+            }}
+          >
+            <div>
+              <p className="font-semibold text-sm mb-1" style={{ color: 'hsl(var(--ink))' }}>
+                We&apos;re always hiring exceptional people.
+              </p>
+              <p className="text-caption">
+                Think you belong here? We&apos;d love to hear from you.
+              </p>
+            </div>
+            <Link
+              href="/#contact"
+              className="btn-outline flex items-center gap-2 shrink-0 whitespace-nowrap"
+              id="about-say-hello-btn"
+            >
+              Say Hello <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          CTA — shared FinalCTA component
+      ═══════════════════════════════════════════════ */}
+      <FinalCTA />
+
+      <Footer />
+
+      <StartProjectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </div>
+  );
 }

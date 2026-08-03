@@ -1,106 +1,367 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, TrendingUp, Users } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Bot, Mic2, MapPin, BarChart2, Star } from 'lucide-react';
 import StartProjectModal from './StartProjectModal';
 
+/* ─────────────────────────────────────────────
+   Project data — real products, real categories
+   ───────────────────────────────────────────── */
 const projects = [
-  { id: 1, title: 'AI-Powered E-Commerce Platform', client: 'TechMart Inc.', category: 'AI Solutions', tech: ['React', 'TensorFlow', 'AWS'], desc: 'Revolutionary e-commerce platform with AI-powered product recommendations and real-time inventory management.', rev: '+250%', users: '2M+', featured: true },
-  { id: 2, title: 'Enterprise SaaS Dashboard', client: 'DataFlow Systems', category: 'Web Platforms', tech: ['Next.js', 'TypeScript', 'PostgreSQL'], desc: 'Comprehensive analytics dashboard for enterprise data visualization and business intelligence.', rev: '+150%', users: '500K+', featured: true },
-  { id: 3, title: 'Shopify Plus Custom Store', client: 'Luxury Fashion Co.', category: 'E-commerce', tech: ['Shopify Plus', 'Liquid', 'GraphQL'], desc: 'Ultra-premium e-commerce experience with custom themes and advanced product customization.', rev: '+300%', users: '1M+', featured: false },
-  { id: 4, title: 'Financial Analytics Platform', client: 'FinTech Solutions', category: 'Web Platforms', tech: ['React', 'Python', 'Docker'], desc: 'Real-time financial analytics platform with advanced reporting and compliance tools.', rev: '+180%', users: '250K+', featured: false },
-  { id: 5, title: 'Healthcare Management System', client: 'MedTech Corp', category: 'AI Solutions', tech: ['Vue.js', 'Node.js', 'AI/ML'], desc: 'Comprehensive healthcare system with AI-driven diagnostics and patient management.', rev: '+200%', users: '100K+', featured: false },
+  {
+    id: '01',
+    title: 'AssistPro AI',
+    category: 'AI Productivity Platform',
+    categoryShort: 'AI Platform',
+    href: 'https://assistpro.ai',
+    icon: Bot,
+    desc: 'An intelligent productivity platform enabling individuals and teams to manage tasks, reminders, documents, and schedules through natural language conversations — accessible via WhatsApp, Telegram, and a web dashboard.',
+    highlights: ['Natural Language Processing', 'WhatsApp & Telegram Integration', 'Document Intelligence', 'Automated Scheduling'],
+    tags: ['AI / NLP', 'Multi-channel', 'Productivity'],
+    accentVar: '--accent',
+    featured: true,
+  },
+  {
+    id: '02',
+    title: 'UserCall',
+    category: 'Voice AI Research Platform',
+    categoryShort: 'Voice AI',
+    href: 'https://www.usercall.co',
+    icon: Mic2,
+    desc: 'AI-moderated voice interviews at scale — no manual scheduling or moderation required. Automatic transcription, theme identification, sentiment analysis, and actionable insight generation for product, UX, and marketing teams.',
+    highlights: ['AI Voice Moderation', 'Sentiment Analysis', 'Auto Transcription', 'Insight Generation'],
+    tags: ['Voice AI', 'Research', 'Analytics'],
+    accentVar: '--sage',
+    featured: true,
+  },
+  {
+    id: '03',
+    title: 'PickleballCourts',
+    category: 'Marketplace & Community Platform',
+    categoryShort: 'Marketplace',
+    href: 'https://livepickleballcourts.com',
+    icon: MapPin,
+    desc: 'A location-based platform for discovering pickleball courts across the United States, combining court discovery, community engagement, premium content access, and administrative management tools.',
+    highlights: ['Geolocation Discovery', 'Community Features', 'Content Monetization', 'Admin Dashboard'],
+    tags: ['Marketplace', 'Geo Platform', 'Community'],
+    accentVar: '--accent',
+    featured: false,
+  },
+  {
+    id: '04',
+    title: 'SEOTalos',
+    category: 'SEO Analytics Platform',
+    categoryShort: 'SEO Analytics',
+    href: 'https://seotalos.com',
+    icon: BarChart2,
+    desc: 'Advanced SEO analytics for agencies managing multiple Google Search Console properties. Deeper keyword insights, SEO A/B testing, AI search visibility tracking, and collaborative tools for organic growth.',
+    highlights: ['Multi-property GSC Management', 'SEO A/B Testing', 'AI Visibility Tracking', 'Agency Collaboration'],
+    tags: ['Analytics', 'SEO', 'SaaS'],
+    accentVar: '--sage',
+    featured: false,
+  },
+  {
+    id: '05',
+    title: 'ReviewRocket',
+    category: 'Reputation Management Platform',
+    categoryShort: 'Reputation SaaS',
+    href: 'https://reviewroket.com',
+    icon: Star,
+    desc: 'Automated review collection and reputation management for local businesses. Sends personalised review requests, monitors reviews in real time, generates AI-powered responses, and delivers actionable insights.',
+    highlights: ['Automated Review Requests', 'Real-time Monitoring', 'AI Response Generation', 'Reputation Analytics'],
+    tags: ['Automation', 'AI', 'Local Business'],
+    accentVar: '--accent',
+    featured: false,
+  },
 ];
 
+/* ─────────────────────────────────────────────
+   Sub-components
+   ───────────────────────────────────────────── */
+
+/** Small live-dot + "Live" label */
+const LiveBadge = () => (
+  <span className="flex items-center gap-1.5">
+    <span className="status-live" />
+    <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: 'hsl(var(--sage))' }}>Live</span>
+  </span>
+);
+
+/** Featured card — large editorial spotlight */
+const FeaturedCard = ({
+  project,
+  index,
+}: {
+  project: typeof projects[0];
+  index: number;
+}) => {
+  const [hovered, setHovered] = useState(false);
+  const Icon = project.icon;
+
+  return (
+    <a
+      href={project.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`card group block p-7 lg:p-9 cursor-pointer no-underline scroll-reveal delay-${(index + 1) * 100}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      aria-label={`View ${project.title} — opens in new tab`}
+    >
+      {/* Top row */}
+      <div className="flex items-start justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+            style={{
+              background: `hsl(${project.accentVar === '--sage' ? 'var(--sage-soft)' : 'var(--accent-soft)'})`,
+              border: `1px solid hsl(${project.accentVar === '--sage' ? 'var(--sage) / 0.2' : 'var(--accent) / 0.2'})`,
+            }}
+          >
+            <Icon
+              className="w-5 h-5"
+              style={{ color: `hsl(var(${project.accentVar}))` }}
+            />
+          </div>
+          <div>
+            <span
+              className="tag-accent text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-full"
+              style={{
+                color: `hsl(var(${project.accentVar}))`,
+                background: `hsl(var(${project.accentVar === '--sage' ? '--sage-soft' : '--accent-soft'}))`,
+                border: `1px solid hsl(var(${project.accentVar}) / 0.25)`,
+              }}
+            >
+              {project.categoryShort}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <LiveBadge />
+          <ArrowUpRight
+            className="w-4 h-4 transition-all duration-300"
+            style={{
+              color: `hsl(var(${project.accentVar}))`,
+              opacity: hovered ? 1 : 0.4,
+              transform: hovered ? 'translate(2px, -2px)' : 'translate(0, 0)',
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Number + Title */}
+      <div className="mb-4">
+        <span
+          className="font-mono text-xs tracking-widest block mb-2"
+          style={{ color: 'hsl(var(--ink-muted))' }}
+        >
+          {project.id}
+        </span>
+        <h3
+          className="text-heading text-xl lg:text-2xl transition-colors duration-300"
+          style={{ color: hovered ? `hsl(var(${project.accentVar}))` : 'hsl(var(--ink))' }}
+        >
+          {project.title}
+        </h3>
+      </div>
+
+      {/* Description */}
+      <p className="text-body text-sm mb-6 leading-relaxed">{project.desc}</p>
+
+      {/* Highlights */}
+      <ul
+        className="space-y-2 mb-7 pb-7"
+        style={{ borderBottom: '1px solid hsl(var(--border))' }}
+      >
+        {project.highlights.map((h) => (
+          <li key={h} className="flex items-center gap-2.5">
+            <span
+              className="w-1 h-1 rounded-full flex-shrink-0"
+              style={{ background: `hsl(var(${project.accentVar}))` }}
+            />
+            <span className="text-xs" style={{ color: 'hsl(var(--ink-light))' }}>{h}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Tags + CTA */}
+      <div className="flex items-center justify-between">
+        <div className="flex flex-wrap gap-1.5">
+          {project.tags.map((t) => (
+            <span key={t} className="tag">{t}</span>
+          ))}
+        </div>
+        <span
+          className="font-mono text-xs transition-all duration-300"
+          style={{
+            color: `hsl(var(${project.accentVar}))`,
+            opacity: hovered ? 1 : 0,
+            transform: hovered ? 'translateX(0)' : 'translateX(-6px)',
+          }}
+        >
+          Visit →
+        </span>
+      </div>
+    </a>
+  );
+};
+
+/** Compact row — numbered editorial list */
+const ProjectRow = ({
+  project,
+  index,
+}: {
+  project: typeof projects[0];
+  index: number;
+}) => {
+  const [hovered, setHovered] = useState(false);
+  const Icon = project.icon;
+
+  return (
+    <a
+      href={project.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 py-7 cursor-pointer no-underline transition-all duration-300 scroll-reveal delay-${Math.min((index + 1) * 100, 400)}`}
+      style={{ borderTop: '1px solid hsl(var(--border))' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      aria-label={`View ${project.title} — opens in new tab`}
+    >
+      {/* Index */}
+      <span
+        className="font-mono text-xs tracking-widest shrink-0 w-6"
+        style={{ color: `hsl(var(${project.accentVar}))` }}
+      >
+        {project.id}
+      </span>
+
+      {/* Icon */}
+      <div
+        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300"
+        style={{
+          background: hovered
+            ? `hsl(var(${project.accentVar === '--sage' ? '--sage-soft' : '--accent-soft'}))`
+            : 'hsl(var(--surface-warm))',
+          border: '1px solid hsl(var(--border))',
+        }}
+      >
+        <Icon
+          className="w-4 h-4 transition-colors duration-300"
+          style={{ color: hovered ? `hsl(var(${project.accentVar}))` : 'hsl(var(--ink-muted))' }}
+        />
+      </div>
+
+      {/* Title + Category */}
+      <div className="lg:w-52 shrink-0">
+        <h3
+          className="text-subhead text-sm font-semibold transition-colors duration-300"
+          style={{ color: hovered ? `hsl(var(${project.accentVar}))` : 'hsl(var(--ink))' }}
+        >
+          {project.title}
+        </h3>
+        <span className="text-caption">{project.categoryShort}</span>
+      </div>
+
+      {/* Description */}
+      <p className="text-sm flex-1 leading-relaxed" style={{ color: 'hsl(var(--ink-light))' }}>
+        {project.desc.length > 140 ? `${project.desc.slice(0, 140)}…` : project.desc}
+      </p>
+
+      {/* Tags */}
+      <div className="hidden lg:flex flex-wrap gap-1.5 shrink-0">
+        {project.tags.slice(0, 2).map((t) => (
+          <span key={t} className="tag">{t}</span>
+        ))}
+      </div>
+
+      {/* Arrow */}
+      <ArrowUpRight
+        className="w-4 h-4 shrink-0 transition-all duration-300"
+        style={{
+          color: `hsl(var(${project.accentVar}))`,
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? 'translate(2px, -2px)' : 'translate(0, 0)',
+        }}
+      />
+    </a>
+  );
+};
+
+/* ─────────────────────────────────────────────
+   Main section
+   ───────────────────────────────────────────── */
 const Work = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const featured = projects.filter(p => p.featured);
-  const others = projects.filter(p => !p.featured);
+  const featured = projects.filter((p) => p.featured);
+  const others = projects.filter((p) => !p.featured);
 
   return (
     <>
-      <section id="work" className="section-pad relative" style={{ background: 'hsl(var(--surface))' }}>
+      <section
+        id="work"
+        className="section-pad relative"
+        style={{ background: 'hsl(var(--surface))' }}
+      >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          {/* Section header */}
           <div className="flex items-center gap-4 mb-6 scroll-reveal">
-            <span className="text-caption">Selected Work</span>
+            <span className="text-caption">Featured Projects</span>
             <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
+            <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: 'hsl(var(--ink-muted))' }}>
+              {projects.length} Products
+            </span>
           </div>
 
-          <div className="mb-16 scroll-reveal delay-100">
-            <h2 className="text-display mb-6" style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}>
-              Case studies that{' '}
-              <span className="text-serif-accent">speak</span> for themselves
+          {/* Section headline */}
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-16 mb-16">
+            <h2
+              className="text-display scroll-reveal delay-100"
+              style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}
+            >
+              Real products,{' '}
+              <span className="text-serif-accent">real impact</span>
             </h2>
+            <div className="flex items-end scroll-reveal delay-200">
+              <p className="text-body max-w-lg">
+                A selection of AI platforms, SaaS products, automation systems, analytics tools,
+                and business solutions successfully delivered across multiple industries.
+              </p>
+            </div>
           </div>
 
-          {/* Featured — large editorial cards */}
-          <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          {/* Featured cards — 2-column editorial */}
+          <div className="grid lg:grid-cols-2 gap-5 mb-8">
             {featured.map((p, i) => (
-              <div key={p.id} className={`card p-8 group cursor-pointer scroll-reveal delay-${(i + 1) * 100}`}>
-                {/* Placeholder visual */}
-                <div className="w-full h-48 rounded-xl mb-6 flex items-center justify-center"
-                  style={{ background: 'hsl(var(--surface-warm))', border: '1px solid hsl(var(--border))' }}
-                >
-                  <span className="num-display">{String(p.id).padStart(2, '0')}</span>
-                </div>
-
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="tag-accent">{p.category}</span>
-                  <span className="text-caption">{p.client}</span>
-                </div>
-
-                <h3 className="text-heading text-xl mb-3 group-hover:text-accent transition-colors duration-300">
-                  {p.title}
-                </h3>
-                <p className="text-body text-sm mb-5">{p.desc}</p>
-
-                <div className="flex items-center gap-6 mb-5 pb-5" style={{ borderBottom: '1px solid hsl(var(--border))' }}>
-                  <div className="flex items-center gap-1.5">
-                    <TrendingUp className="w-3.5 h-3.5" style={{ color: 'hsl(var(--sage))' }} />
-                    <span className="text-sm font-semibold" style={{ color: 'hsl(var(--sage))' }}>{p.rev}</span>
-                    <span className="text-caption">revenue</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5" style={{ color: 'hsl(var(--accent))' }} />
-                    <span className="text-sm font-semibold" style={{ color: 'hsl(var(--accent))' }}>{p.users}</span>
-                    <span className="text-caption">users</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    {p.tech.map(t => <span key={t} className="tag">{t}</span>)}
-                  </div>
-                  <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" style={{ color: 'hsl(var(--accent))' }} />
-                </div>
-              </div>
+              <FeaturedCard key={p.id} project={p} index={i} />
             ))}
           </div>
 
-          {/* Other projects — compact rows */}
-          <div className="space-y-0 mb-16">
+          {/* Remaining projects — compact numbered rows */}
+          <div className="mb-16">
             {others.map((p, i) => (
-              <div key={p.id}
-                className={`group py-6 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 cursor-pointer transition-all duration-300 scroll-reveal delay-${Math.min((i + 1) * 100, 500)}`}
-                style={{ borderTop: '1px solid hsl(var(--border))' }}
-              >
-                <span className="font-mono text-xs tracking-wider shrink-0" style={{ color: 'hsl(var(--accent))' }}>
-                  {String(p.id).padStart(2, '0')}
-                </span>
-                <h3 className="text-subhead text-base lg:w-60 shrink-0 group-hover:text-accent transition-colors">{p.title}</h3>
-                <span className="text-caption shrink-0">{p.client}</span>
-                <p className="text-sm flex-1" style={{ color: 'hsl(var(--ink-light))', lineHeight: 1.6 }}>{p.desc}</p>
-                <div className="flex items-center gap-4 shrink-0">
-                  <span className="text-sm font-semibold" style={{ color: 'hsl(var(--sage))' }}>{p.rev}</span>
-                  <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: 'hsl(var(--accent))' }} />
-                </div>
-              </div>
+              <ProjectRow key={p.id} project={p} index={i} />
             ))}
             <div style={{ borderTop: '1px solid hsl(var(--border))' }} />
           </div>
 
-          <div className="text-center scroll-reveal delay-200">
-            <button className="btn-primary flex items-center justify-center gap-2 mx-auto" onClick={() => setIsModalOpen(true)}>
+          {/* Bottom CTA */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 scroll-reveal delay-200">
+            <div>
+              <p className="text-sm font-semibold mb-1" style={{ color: 'hsl(var(--ink))' }}>
+                Ready to build your product?
+              </p>
+              <p className="text-caption">
+                Let&apos;s turn your vision into a market-ready platform.
+              </p>
+            </div>
+            <button
+              className="btn-primary flex items-center gap-2 shrink-0"
+              onClick={() => setIsModalOpen(true)}
+              id="work-start-project-btn"
+            >
               Start Your Project <ArrowRight className="w-4 h-4" />
             </button>
           </div>

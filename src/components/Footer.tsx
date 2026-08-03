@@ -8,7 +8,7 @@ const Footer = () => {
   const footerLinks = {
     company: [
       { name: 'About', href: '/about' },
-      { name: 'Services', href: '/#services' },
+      { name: 'Services', href: '/services' },
       { name: 'Work', href: '/#work' },
       { name: 'Contact', href: '/#contact' },
     ],
@@ -19,8 +19,8 @@ const Footer = () => {
       { name: 'GitHub', href: '#' },
     ],
     legal: [
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
+      { name: 'Privacy Policy', href: '/privacy-policy' },
+      { name: 'Terms of Service', href: '/terms-of-service' },
     ],
   };
 
