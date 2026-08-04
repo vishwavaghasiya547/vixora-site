@@ -7,6 +7,15 @@ import StartProjectModal from './StartProjectModal';
 const FinalCTA = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleScheduleCall = () => {
+    const contactEl = document.getElementById('contact');
+    if (contactEl) {
+      contactEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/#contact';
+    }
+  };
+
   return (
     <>
       <section className="relative py-28 overflow-hidden grain" style={{ background: 'hsl(var(--ink))' }}>
@@ -38,7 +47,7 @@ const FinalCTA = () => {
             </button>
             <button id="finalcta-schedule-call-btn" className="px-8 py-4 rounded-lg font-semibold text-sm transition-all duration-300"
               style={{ background: 'transparent', color: 'hsla(0,0%,100%,0.7)', border: '1.5px solid hsla(0,0%,100%,0.15)' }}
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={handleScheduleCall}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'hsl(var(--surface) / 0.4)'; e.currentTarget.style.color = 'hsl(var(--surface))'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'hsla(0,0,100%,0.15)'; e.currentTarget.style.color = 'hsla(0,0%,100%,0.7)'; }}
             >

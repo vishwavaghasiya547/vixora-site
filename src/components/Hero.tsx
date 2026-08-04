@@ -188,8 +188,7 @@ const Hero = () => {
           <div className="mt-12 grid lg:grid-cols-12 gap-10 items-end">
             <div className="reveal reveal-d3 lg:col-span-7">
               <p className="text-body text-lg max-w-xl">
-                Vixora partners with ambitious companies to build scalable technical infrastructure,
-                AI-powered algorithms, and flawless digital experiences that dominate markets.
+                We build high-performance AI platforms, scalable SaaS products, and bespoke web apps that drive measurable growth.
               </p>
             </div>
 

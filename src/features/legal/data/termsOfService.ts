@@ -92,7 +92,7 @@ export const termsOfServiceData: LegalData = {
       keyTakeaway: "If you have any questions or legal inquiries regarding these Terms, please contact our legal counsel.",
       content: [
         "If you have any questions, feedback, or legal notices regarding these Terms, please contact us at:",
-        "Email: legal@vixora.com",
+        "Email: info@vixoralabs.in",
         "Vixora Studio — Headquartered in India (Delivering Worldwide)"
       ]
     }

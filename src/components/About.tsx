@@ -2,8 +2,17 @@
 
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { companyStats } from '@/shared/data/companyStats';
+import { companyValues } from '@/features/about/data/companyValues';
 
 const About = () => {
+  const aboutStats = [
+    { val: companyStats.teamMembers, label: 'Team members across 3 continents' },
+    { val: companyStats.yearsExcellence, label: 'Years of shipping products that matter' },
+  ];
+
+  const featuredValues = companyValues.slice(0, 4);
+
   return (
     <section id="about" className="section-pad relative grain" style={{ background: 'hsl(var(--bg-alt))' }}>
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
@@ -22,16 +31,13 @@ const About = () => {
             </h2>
 
             <p className="text-body text-lg max-w-2xl scroll-reveal delay-200">
-              We are a team of 50+ technologists, designers, and strategists who believe digital products
+              We are a team of {companyStats.teamMembers} technologists, designers, and strategists who believe digital products
               should be as intelligent as they are beautiful. Every pixel and every algorithm serves a
               purpose — your users&apos; success and your business growth.
             </p>
 
             <div className="grid grid-cols-2 gap-6 pt-6 scroll-reveal delay-300" style={{ borderTop: '1px solid hsl(var(--border))' }}>
-              {[
-                { val: '50+', label: 'Team members across 3 continents' },
-                { val: '5+', label: 'Years of shipping products that matter' },
-              ].map((s, i) => (
+              {aboutStats.map((s, i) => (
                 <div key={i}>
                   <div className="text-4xl font-serif font-semibold tracking-tight" style={{ color: 'hsl(var(--accent))' }}>
                     {s.val}
@@ -48,20 +54,15 @@ const About = () => {
 
           {/* Right — values */}
           <div className="lg:col-span-5 space-y-4">
-            {[
-              { num: '01', title: 'Innovation First', desc: 'We push boundaries with cutting-edge technology and creative problem-solving.' },
-              { num: '02', title: 'Quality Over Speed', desc: 'Every line of code and every design element is crafted with precision and purpose.' },
-              { num: '03', title: 'Client Partnership', desc: 'Your success is our success. We embed ourselves in your mission and deliver accordingly.' },
-              { num: '04', title: 'Radical Transparency', desc: 'No surprises. Open communication about timelines, challenges, and trade-offs.' },
-            ].map((v, i) => (
-              <div key={i} className={`card p-6 group cursor-default scroll-reveal delay-${(i + 1) * 100}`}>
+            {featuredValues.map((v, i) => (
+              <div key={v.num} className={`card p-6 group cursor-default scroll-reveal delay-${(i + 1) * 100}`}>
                 <div className="flex items-start gap-4">
                   <span className="font-mono text-xs tracking-wider shrink-0 pt-1" style={{ color: 'hsl(var(--accent))' }}>
                     {v.num}
                   </span>
                   <div>
                     <h3 className="text-subhead text-base mb-1">{v.title}</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: 'hsl(var(--ink-light))' }}>{v.desc}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'hsl(var(--ink-light))' }}>{v.description}</p>
                   </div>
                 </div>
               </div>

@@ -7,7 +7,6 @@ import Work from '@/components/Work';
 import Process from '@/components/Process';
 import Technology from '@/components/Technology';
 import Testimonials from '@/components/Testimonials';
-import FinalCTA from '@/components/FinalCTA';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
@@ -23,7 +22,6 @@ export default function Home() {
       <Process />
       <Technology />
       <Testimonials />
-      <FinalCTA />
       <Contact />
       <Footer />
     </div>

@@ -27,61 +27,8 @@ import Footer from '@/components/Footer';
 import FinalCTA from '@/components/FinalCTA';
 import StartProjectModal from '@/components/StartProjectModal';
 import JourneyTimeline from '@/features/about/components/JourneyTimeline';
-
-/* ─── Data (preserved from original) ──────────────── */
-
-const stats = [
-  { value: '150+', label: 'Projects Delivered' },
-  { value: '98%', label: 'Client Retention' },
-  { value: '5+',  label: 'Years of Excellence' },
-  { value: '40+', label: 'Countries Served' },
-  { value: '$200M+', label: 'Client Revenue Generated' },
-];
-
-const values = [
-  {
-    num: '01',
-    title: 'Innovation First',
-    description:
-      'We push the boundaries of what is possible. Cutting-edge technology and creative problem-solving are the backbone of everything we build.',
-    icon: Lightbulb,
-  },
-  {
-    num: '02',
-    title: 'Quality Excellence',
-    description:
-      'Every pixel, every line of code is crafted with precision. We refuse to ship anything we would not be proud to put our name on.',
-    icon: Target,
-  },
-  {
-    num: '03',
-    title: 'Client Success',
-    description:
-      'Your success is our KPI. We go beyond deliverables and become embedded partners in your growth journey.',
-    icon: Users,
-  },
-  {
-    num: '04',
-    title: 'Radical Transparency',
-    description:
-      'No surprises. We communicate openly about timelines, challenges, and trade-offs so you are always in the driver seat.',
-    icon: Shield,
-  },
-  {
-    num: '05',
-    title: 'Continuous Growth',
-    description:
-      'We invest heavily in learning and staying ahead of the curve so our clients always get solutions built for tomorrow.',
-    icon: TrendingUp,
-  },
-  {
-    num: '06',
-    title: 'Speed with Substance',
-    description:
-      'We move fast without breaking things. Iterative delivery with an unrelenting focus on the fundamentals.',
-    icon: Zap,
-  },
-];
+import { mainCompanyStats as stats } from '@/shared/data/companyStats';
+import { companyValues as values } from '@/features/about/data/companyValues';
 
 const team = [
   {

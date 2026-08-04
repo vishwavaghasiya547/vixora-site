@@ -82,7 +82,7 @@ export const privacyPolicyData: LegalData = {
         "Correction: The right to request that we update or correct inaccurate or incomplete personal information.",
         "Deletion: The right to request that we delete your personal data from our systems.",
         "Objection & Restriction: The right to object to or restrict our processing of your information.",
-        "To exercise any of these rights, please contact us at privacy@vixora.com. We will verify your identity and respond to your request in accordance with applicable laws."
+        "To exercise any of these rights, please contact us at info@vixoralabs.in. We will verify your identity and respond to your request in accordance with applicable laws."
       ]
     },
     {
@@ -91,7 +91,7 @@ export const privacyPolicyData: LegalData = {
       keyTakeaway: "For any questions or concerns regarding this policy or your personal data, our privacy team is here to assist.",
       content: [
         "If you have any questions, feedback, or complaints regarding this Privacy Policy or our data handling practices, please reach out to us:",
-        "Email: privacy@vixora.com",
+        "Email: info@vixoralabs.in",
         "Vixora Studio — Headquartered in India (Delivering Worldwide)"
       ]
     }

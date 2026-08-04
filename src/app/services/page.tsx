@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import FinalCTA from '@/components/FinalCTA';
 import StartProjectModal from '@/components/StartProjectModal';
 import { servicesData } from '@/features/services/data/servicesData';
+import { trustBannerStats } from '@/shared/data/companyStats';
 
 export default function ServicesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,21 +94,20 @@ export default function ServicesPage() {
             {allServices.map((svc, idx) => {
               const Icon = svc.icon;
               return (
-                <Link
+                <div
                   key={svc.slug}
-                  href={`/services/${svc.slug}`}
-                  className="group flex flex-col lg:flex-row lg:items-center justify-between py-8 border-b first:border-t-0 border-border transition-all duration-300 hover:px-2 scroll-reveal"
+                  className="flex flex-col lg:flex-row lg:items-center justify-between py-8 border-b first:border-t-0 border-border scroll-reveal"
                 >
                   {/* Left Block: Icon + Name */}
                   <div className="flex items-center gap-4 lg:w-1/3 shrink-0">
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border border-border group-hover:border-accent transition-colors duration-300"
+                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border border-border"
                       style={{ background: 'hsl(var(--surface-warm))' }}
                     >
-                      <Icon className="w-5 h-5 text-ink-muted group-hover:text-accent transition-colors duration-300" />
+                      <Icon className="w-5 h-5 text-accent" />
                     </div>
                     <div>
-                      <h3 className="text-subhead font-semibold text-lg group-hover:text-accent transition-colors duration-300 text-ink">
+                      <h3 className="text-subhead font-semibold text-lg text-ink">
                         {svc.name}
                       </h3>
                       <span className="font-mono text-[9px] uppercase tracking-widest text-ink-muted block mt-0.5">
@@ -121,7 +121,7 @@ export default function ServicesPage() {
                     {svc.tagline}
                   </p>
 
-                  {/* Right: Explorer Indicator */}
+                  {/* Right: Offerings Tags */}
                   <div className="flex items-center gap-6 shrink-0 justify-between sm:justify-start">
                     <div className="flex flex-wrap gap-1.5 max-w-xs justify-end">
                       {svc.offerings.slice(0, 2).map((o) => (
@@ -130,9 +130,8 @@ export default function ServicesPage() {
                         </span>
                       ))}
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-accent opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
                   </div>
-                </Link>
+                </div>
               );
             })}
             <div className="border-b border-border" />
@@ -144,14 +143,9 @@ export default function ServicesPage() {
       <section className="py-16 relative" style={{ background: 'hsl(var(--bg-alt))' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { val: '150+', label: 'Digital Products Shipped' },
-              { val: '5+', label: 'Years Architecting Cloud Systems' },
-              { val: '98%', label: 'Client Satisfaction Score' },
-              { val: '24/7', label: 'Infrastructure Support SLA' }
-            ].map((s) => (
+            {trustBannerStats.map((s) => (
               <div key={s.label} className="text-center lg:text-left">
-                <div className="font-serif text-3xl lg:text-4xl font-bold text-ink mb-1">{s.val}</div>
+                <div className="font-serif text-3xl lg:text-4xl font-bold text-ink mb-1">{s.value}</div>
                 <div className="text-caption">{s.label}</div>
               </div>
             ))}

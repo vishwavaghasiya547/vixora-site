@@ -1,17 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Brain, Code, Zap, ShoppingBag, Palette, Server } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import StartProjectModal from './StartProjectModal';
+import { servicesData } from '@/features/services/data/servicesData';
 
-const services = [
-  { num: '01', title: 'AI & Machine Learning', desc: 'Predictive analytics, NLP, computer vision — we transform your data into intelligent systems that automate and scale.', icon: Brain, tags: ['TensorFlow', 'PyTorch', 'GPT'] },
-  { num: '02', title: 'Web Development', desc: 'Modern, performant web applications built with React, Next.js, and cloud-native architecture for peak reliability.', icon: Code, tags: ['React', 'Next.js', 'Node'] },
-  { num: '03', title: 'SaaS Platforms', desc: 'Enterprise-grade multi-tenant systems with robust APIs, real-time data, and infrastructure that scales to millions.', icon: Zap, tags: ['API Design', 'Multi-tenant', 'Scale'] },
-  { num: '04', title: 'E-Commerce', desc: 'Custom Shopify Plus stores and headless commerce platforms designed to convert and delight at every touchpoint.', icon: ShoppingBag, tags: ['Shopify Plus', 'Headless', 'Payments'] },
-  { num: '05', title: 'UI/UX Design', desc: 'Research-driven design systems and intuitive interfaces that make complex products feel effortlessly simple.', icon: Palette, tags: ['Design Systems', 'Research', 'Prototyping'] },
-  { num: '06', title: 'DevOps & Cloud', desc: 'Automated CI/CD pipelines, container orchestration, and monitoring that keeps your infrastructure bulletproof.', icon: Server, tags: ['AWS', 'Docker', 'CI/CD'] },
-];
+const servicesList = Object.values(servicesData).map((svc, index) => ({
+  num: String(index + 1).padStart(2, '0'),
+  title: svc.name,
+  desc: svc.tagline,
+  icon: svc.icon,
+  tags: svc.offerings.slice(0, 3).flatMap(o => o.tags).slice(0, 3),
+  slug: svc.slug,
+}));
 
 const Services = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,24 +40,25 @@ const Services = () => {
             </div>
           </div>
 
-          {/* Services list — editorial numbered list, not bento grid */}
+          {/* Services list — editorial numbered list */}
           <div className="space-y-0">
-            {services.map((svc, i) => (
-              <div key={i}
-                className="group py-7 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 cursor-default transition-all duration-300 scroll-reveal"
+            {servicesList.map((svc, i) => (
+              <div
+                key={svc.slug}
+                className="py-7 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 scroll-reveal"
                 style={{ borderTop: '1px solid hsl(var(--border))' }}
               >
                 <span className="font-mono text-xs tracking-wider shrink-0" style={{ color: 'hsl(var(--accent))' }}>
                   {svc.num}
                 </span>
 
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300"
-                  style={{ background: 'hsl(var(--surface-warm))', border: '1px solid hsl(var(--border))' }}
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-border"
+                  style={{ background: 'hsl(var(--surface-warm))' }}
                 >
-                  <svc.icon className="w-5 h-5 transition-colors duration-300" style={{ color: 'hsl(var(--ink-muted))' }} />
+                  <svc.icon className="w-5 h-5 text-accent" />
                 </div>
 
-                <h3 className="text-subhead text-lg lg:w-56 shrink-0 group-hover:text-accent transition-colors duration-300">
+                <h3 className="text-subhead text-lg lg:w-56 shrink-0 text-ink">
                   {svc.title}
                 </h3>
 

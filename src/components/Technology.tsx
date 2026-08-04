@@ -1,77 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Atom,
-  Triangle,
-  Hexagon,
-  Terminal,
-  FileCode2,
-  ShoppingCart,
-  Database,
-  Cloud,
-  Box,
-  Brain,
-  Code,
-  Wind,
-  Layers,
-  Workflow,
-  Globe,
-  Lock,
-  Mic2,
-  BarChart2,
-  GitBranch,
-  Cpu,
-  MessageSquare,
-  Search,
-  Server,
-} from 'lucide-react';
-
-const techs = [
-  /* ── Frontend ── */
-  { name: 'React',         cat: 'Frontend',   icon: Atom },
-  { name: 'Next.js',       cat: 'Frontend',   icon: Triangle },
-  { name: 'Vue.js',        cat: 'Frontend',   icon: Code },
-  { name: 'TypeScript',    cat: 'Frontend',   icon: FileCode2 },
-  { name: 'Tailwind CSS',  cat: 'Frontend',   icon: Wind },
-
-  /* ── Backend ── */
-  { name: 'Node.js',       cat: 'Backend',    icon: Hexagon },
-  { name: 'Python',        cat: 'Backend',    icon: Terminal },
-  { name: 'FastAPI',       cat: 'Backend',    icon: Layers },
-  { name: 'REST & GraphQL',cat: 'Backend',    icon: Globe },
-
-  /* ── AI / ML ── */
-  { name: 'OpenAI GPT',    cat: 'AI / ML',    icon: Brain },
-  { name: 'LangChain',     cat: 'AI / ML',    icon: Workflow },
-  { name: 'TensorFlow',    cat: 'AI / ML',    icon: Cpu },
-  { name: 'Whisper / STT', cat: 'AI / ML',    icon: Mic2 },
-
-  /* ── Database ── */
-  { name: 'PostgreSQL',    cat: 'Database',   icon: Database },
-  { name: 'MongoDB',       cat: 'Database',   icon: Database },
-  { name: 'Redis',         cat: 'Database',   icon: Server },
-  { name: 'Supabase',      cat: 'Database',   icon: Database },
-
-  /* ── Cloud & DevOps ── */
-  { name: 'AWS',           cat: 'Cloud',      icon: Cloud },
-  { name: 'Docker',        cat: 'Cloud',      icon: Box },
-  { name: 'GitHub CI/CD',  cat: 'Cloud',      icon: GitBranch },
-
-  /* ── Commerce & Integrations ── */
-  { name: 'Shopify Plus',  cat: 'Commerce',   icon: ShoppingCart },
-  { name: 'WhatsApp API',  cat: 'Integrations', icon: MessageSquare },
-  { name: 'Google Search Console', cat: 'Integrations', icon: Search },
-  { name: 'Stripe',        cat: 'Integrations', icon: Lock },
-
-  /* ── Analytics ── */
-  { name: 'Analytics Dashboards', cat: 'Analytics', icon: BarChart2 },
-];
+import { techStack } from '@/features/technology/data/technologyData';
 
 const Technology = () => {
   const [active, setActive] = useState('All');
-  const cats = ['All', ...Array.from(new Set(techs.map((t) => t.cat)))];
-  const filtered = active === 'All' ? techs : techs.filter((t) => t.cat === active);
+  const cats = ['All', ...Array.from(new Set(techStack.map((t) => t.cat)))];
+  const filtered = active === 'All' ? techStack : techStack.filter((t) => t.cat === active);
 
   return (
     <section id="technology" className="section-pad relative" style={{ background: 'hsl(var(--bg))' }}>
@@ -82,7 +17,7 @@ const Technology = () => {
           <span className="text-caption">Tech Stack</span>
           <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
           <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: 'hsl(var(--ink-muted))' }}>
-            {techs.length} Tools
+            {techStack.length} Tools
           </span>
         </div>
 
@@ -146,7 +81,7 @@ const Technology = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-14 scroll-reveal delay-300">
+        <div className="text-center mt-8 scroll-reveal delay-300">
           <button
             className="btn-primary"
             onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}

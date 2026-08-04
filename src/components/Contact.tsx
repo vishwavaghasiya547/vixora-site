@@ -42,11 +42,11 @@ const Contact = () => {
             <div className="space-y-6 pt-6 mb-10" style={{ borderTop: '1px solid hsl(var(--border))' }}>
               <div>
                 <p className="text-caption mb-1">Email</p>
-                <a href="mailto:hello@vixora.com" className="text-lg font-medium hover:text-accent transition-colors" style={{ color: 'hsl(var(--ink))' }}>hello@vixora.com</a>
+                <a href="mailto:info@vixoralabs.in" className="text-lg font-medium hover:text-accent transition-colors" style={{ color: 'hsl(var(--ink))' }}>info@vixoralabs.in</a>
               </div>
               <div>
                 <p className="text-caption mb-1">Phone</p>
-                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>+91 98765 43210</p>
+                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>+91 87809 47319</p>
               </div>
               <div>
                 <p className="text-caption mb-1">Location</p>
