@@ -3,9 +3,10 @@
 interface VixoraLogoProps {
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
+  textColor?: string;
 }
 
-const VixoraLogo = ({ size = 'md', showText = true }: VixoraLogoProps) => {
+const VixoraLogo = ({ size = 'md', showText = true, textColor }: VixoraLogoProps) => {
   const sizes = {
     sm: { icon: 30, text: 'text-lg', gap: 'gap-2' },
     md: { icon: 36, text: 'text-xl', gap: 'gap-2.5' },
@@ -41,7 +42,7 @@ const VixoraLogo = ({ size = 'md', showText = true }: VixoraLogoProps) => {
       {showText && (
         <span
           className={`font-serif font-semibold ${s.text} tracking-tight transition-colors duration-300`}
-          style={{ color: 'hsl(var(--ink))' }}
+          style={{ color: textColor || 'hsl(var(--ink))' }}
         >
           Vixora
         </span>

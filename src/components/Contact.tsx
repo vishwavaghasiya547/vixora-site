@@ -46,11 +46,11 @@ const Contact = () => {
               </div>
               <div>
                 <p className="text-caption mb-1">Phone</p>
-                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>+1 (555) 123-4567</p>
+                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>+91 98765 43210</p>
               </div>
               <div>
-                <p className="text-caption mb-1">Office</p>
-                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>123 Studio Way, San Francisco, CA</p>
+                <p className="text-caption mb-1">Location</p>
+                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>India (Serving Clients Worldwide)</p>
               </div>
             </div>
 

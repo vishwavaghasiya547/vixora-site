@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import {
-  ArrowLeft,
   ArrowRight,
   Lightbulb,
   Target,
@@ -19,12 +18,15 @@ import {
   Palette,
   Terminal,
   GitBranch,
+  Rocket,
+  Sparkles,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FinalCTA from '@/components/FinalCTA';
 import StartProjectModal from '@/components/StartProjectModal';
+import JourneyTimeline from '@/features/about/components/JourneyTimeline';
 
 /* ─── Data (preserved from original) ──────────────── */
 
@@ -123,39 +125,51 @@ const team = [
 const timeline = [
   {
     year: '2019',
-    title: 'Founded',
+    title: 'Studio Founded',
     description:
-      'Vixora started as a two-person studio with one goal: build digital products that actually move the needle.',
+      'Vixora started as a four-person studio in India with one clear goal: build digital products that drive real business outcomes.',
+    metric: '4 Founders',
+    icon: Rocket,
   },
   {
     year: '2020',
-    title: 'AI Pivot',
+    title: 'AI & Data Focus',
     description:
-      'We hit our first 20 clients and doubled down on AI-powered solutions as the market began to shift.',
+      'Surpassed 20+ active clients and doubled down on AI-powered software solutions as market demand surged.',
+    metric: '20+ Clients',
+    icon: Brain,
   },
   {
     year: '2021',
-    title: 'Team of 15',
+    title: 'SaaS Practice Launch',
     description:
-      'Brought on design, engineering, and strategy specialists. Launched our SaaS Platform practice.',
+      'Expanded our core team with senior engineers and design leads. Launched our dedicated SaaS Platform Architecture unit.',
+    metric: '15 Specialists',
+    icon: Users,
   },
   {
     year: '2022',
-    title: '$50M in Client Revenue',
+    title: '$50M Client Revenue Impact',
     description:
-      'Our clients collectively generated over $50M in revenue using products we built. A milestone we are proud of.',
+      'Products built by Vixora collectively crossed $50M+ in annual revenue generated for our client partners.',
+    metric: '$50M+ Revenue',
+    icon: TrendingUp,
   },
   {
     year: '2023',
-    title: 'Global Expansion',
+    title: 'Global Delivery Reach',
     description:
-      'Opened delivery hubs in London and Singapore. Now serving clients across 40+ countries.',
+      'Scaled engineering infrastructure from India to support fast-growing startup and enterprise clients across 40+ countries.',
+    metric: '40+ Countries',
+    icon: Globe,
   },
   {
     year: '2024',
-    title: 'Vixora 2.0',
+    title: 'Vixora 2.0 (AI-First)',
     description:
-      'Launched our AI-first service model and grew to 50+ team members. The best chapter yet.',
+      'Launched our Next-Gen AI-first engineering service model and expanded our multidisciplinary team to 50+ members.',
+    metric: '50+ Engineers',
+    icon: Sparkles,
   },
 ];
 
@@ -194,7 +208,7 @@ export default function AboutPage() {
           HERO — editorial brand statement
       ═══════════════════════════════════════════════ */}
       <section
-        className="relative pt-36 lg:pt-52 pb-24 lg:pb-36 overflow-hidden"
+        className="relative pt-32 lg:pt-40 pb-20 lg:pb-28 overflow-hidden"
         style={{ background: 'hsl(var(--bg))' }}
       >
         {/* Subtle engineering grid — same as Hero.tsx */}
@@ -211,20 +225,6 @@ export default function AboutPage() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-
-          {/* Back link */}
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 mb-14 group"
-            style={{ color: 'hsl(var(--ink-muted))' }}
-          >
-            <ArrowLeft
-              className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1"
-            />
-            <span className="font-mono text-[11px] uppercase tracking-widest group-hover:text-ink transition-colors">
-              Back to Home
-            </span>
-          </Link>
 
           {/* Section label */}
           <div className="flex items-center gap-4 mb-8 scroll-reveal">
@@ -324,7 +324,7 @@ export default function AboutPage() {
             </div>
             <div className="lg:col-span-7 space-y-5 scroll-reveal delay-200">
               <p className="text-body leading-relaxed">
-                Vixora started in 2019 as a two-person studio with a simple conviction: most software
+                Vixora started in 2019 as a four-person studio with a simple conviction: most software
                 agencies optimise for billable hours, not product outcomes. We built Vixora differently
                 — embedding ourselves in our clients&apos; problems, shipping iteratively, and measuring
                 success by the metrics that matter to the business.
@@ -341,66 +341,8 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Timeline — left-rail design */}
-          <div className="relative">
-            <div className="flex items-center gap-4 mb-12 scroll-reveal">
-              <span className="text-caption">Journey</span>
-              <div className="h-px w-12" style={{ background: 'hsl(var(--border))' }} />
-            </div>
-
-            <div className="relative pl-0 lg:pl-8">
-              {/* Vertical rail */}
-              <div
-                className="absolute left-0 top-0 bottom-0 w-px hidden lg:block"
-                style={{ background: 'hsl(var(--border))' }}
-              />
-
-              <div className="space-y-0">
-                {timeline.map((item, i) => (
-                  <div
-                    key={i}
-                    className={`group relative flex flex-col lg:flex-row gap-4 lg:gap-12 py-8 scroll-reveal delay-${Math.min((i + 1) * 100, 400)}`}
-                    style={{ borderTop: i === 0 ? 'none' : '1px solid hsl(var(--border))' }}
-                  >
-                    {/* Rail dot */}
-                    <div
-                      className="absolute left-[-4.5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full hidden lg:block transition-transform duration-300 group-hover:scale-150"
-                      style={{
-                        background: 'hsl(var(--accent))',
-                        outline: '3px solid hsl(var(--surface))',
-                      }}
-                    />
-
-                    {/* Year */}
-                    <div className="lg:w-20 shrink-0">
-                      <span
-                        className="font-mono text-xs tracking-widest font-semibold"
-                        style={{ color: 'hsl(var(--accent))' }}
-                      >
-                        {item.year}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 lg:grid lg:grid-cols-3 lg:gap-8 items-baseline">
-                      <h3
-                        className="text-subhead font-semibold mb-2 lg:mb-0 transition-colors duration-300 group-hover:text-accent"
-                        style={{ color: 'hsl(var(--ink))' }}
-                      >
-                        {item.title}
-                      </h3>
-                      <p
-                        className="text-sm leading-relaxed lg:col-span-2"
-                        style={{ color: 'hsl(var(--ink-light))' }}
-                      >
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          {/* Journey Section — Modern Interactive Component */}
+          <JourneyTimeline />
         </div>
       </section>
 

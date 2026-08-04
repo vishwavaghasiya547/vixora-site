@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  ArrowLeft, ArrowRight, ArrowUpRight,
+  ArrowRight, ArrowUpRight,
   Atom, Triangle, Hexagon, Terminal, FileCode2,
   ShoppingCart, Database, Cloud, Box, Brain,
   Code, Wind, Layers, Globe, Lock, Mic2,
@@ -320,7 +320,7 @@ export default function TechnologyPage() {
       {/* ═══════════════════════════════════════
           HERO
       ═══════════════════════════════════════ */}
-      <section className="relative pt-36 lg:pt-52 pb-24 overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
+      <section className="relative pt-32 lg:pt-40 pb-20 overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
         {/* Engineering grid */}
         <div
           className="absolute inset-0 opacity-[0.35] pointer-events-none"
@@ -335,17 +335,6 @@ export default function TechnologyPage() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 mb-14 group"
-            style={{ color: 'hsl(var(--ink-muted))' }}
-          >
-            <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
-            <span className="font-mono text-[11px] uppercase tracking-widest group-hover:text-ink transition-colors">
-              Back to Home
-            </span>
-          </Link>
-
           <div className="flex items-center gap-4 mb-8 scroll-reveal">
             <span className="text-caption">Engineering Stack</span>
             <div className="h-px w-12" style={{ background: 'hsl(var(--border))' }} />
@@ -526,10 +515,9 @@ export default function TechnologyPage() {
             {filtered.map((tech, i) => {
               const Icon = tech.icon;
               return (
-                <Link
+                <div
                   key={tech.slug}
-                  href={`/technology/${tech.slug}`}
-                  className={`group flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-6 cursor-pointer transition-all duration-300 scroll-reveal delay-${Math.min((i + 1) * 100, 400)}`}
+                  className={`group flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-6 cursor-default transition-all duration-300 scroll-reveal delay-${Math.min((i + 1) * 100, 400)}`}
                   style={{ borderTop: '1px solid hsl(var(--border))' }}
                 >
                   {/* Icon */}
@@ -576,12 +564,8 @@ export default function TechnologyPage() {
                     >
                       {tech.depth}
                     </span>
-                    <ArrowUpRight
-                      className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      style={{ color: 'hsl(var(--accent))' }}
-                    />
                   </div>
-                </Link>
+                </div>
               );
             })}
             <div style={{ borderTop: '1px solid hsl(var(--border))' }} />

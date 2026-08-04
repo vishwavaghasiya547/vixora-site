@@ -92,9 +92,7 @@ export const privacyPolicyData: LegalData = {
       content: [
         "If you have any questions, feedback, or complaints regarding this Privacy Policy or our data handling practices, please reach out to us:",
         "Email: privacy@vixora.com",
-        "Vixora Studio — Attention: Privacy Team",
-        "San Francisco: 100 Montgomery St, San Francisco, CA 94104",
-        "London: 22 Bishopsgate, London EC2N 4AJ, United Kingdom"
+        "Vixora Studio — Headquartered in India (Delivering Worldwide)"
       ]
     }
   ]

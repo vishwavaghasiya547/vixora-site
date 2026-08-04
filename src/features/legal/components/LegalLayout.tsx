@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ChevronDown, Shield, Check, FileText } from 'lucide-react';
+import { ChevronDown, Shield, Check, FileText } from 'lucide-react';
 import { LegalData } from '../data/privacyPolicy';
 
 interface LegalLayoutProps {
@@ -78,7 +78,7 @@ export default function LegalLayout({ data }: LegalLayoutProps) {
       {/* ═══════════════════════════════════════════════
           HERO SECTION — Asymmetric Editorial Header
       ═══════════════════════════════════════════════ */}
-      <section className="relative pt-36 lg:pt-52 pb-20 lg:pb-24 overflow-hidden">
+      <section className="relative pt-32 lg:pt-40 pb-20 lg:pb-24 overflow-hidden">
         {/* Engineering Grid Overlay */}
         <div
           className="absolute inset-0 opacity-[0.25] pointer-events-none"
@@ -93,18 +93,6 @@ export default function LegalLayout({ data }: LegalLayoutProps) {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-          {/* Back button */}
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 mb-12 group transition-colors duration-200"
-            style={{ color: 'hsl(var(--ink-muted))' }}
-          >
-            <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
-            <span className="font-mono text-[11px] uppercase tracking-widest group-hover:text-ink transition-colors">
-              Back to Home
-            </span>
-          </Link>
-
           {/* Grid Layout */}
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             <div className="lg:col-span-7 space-y-6">

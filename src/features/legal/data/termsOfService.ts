@@ -71,10 +71,10 @@ export const termsOfServiceData: LegalData = {
     {
       id: "governing-law",
       title: "7. Governing Law and Jurisdiction",
-      keyTakeaway: "Any disputes arising from these Terms will be governed by California law and resolved in the courts of San Francisco.",
+      keyTakeaway: "Any disputes arising from these Terms will be governed by applicable laws in India.",
       content: [
-        "These Terms and any dispute or claim arising out of or in connection with them or their subject matter shall be governed by, and construed in accordance with, the laws of the State of California, without giving effect to any choice or conflict of law provision or rule.",
-        "Any legal suit, action, or proceeding arising out of, or related to, these Terms or the website shall be instituted exclusively in the federal courts of the United States or the courts of the State of California, in each case located in the City and County of San Francisco. You waive any and all objections to the exercise of jurisdiction over you by such courts and to venue in such courts."
+        "These Terms and any dispute or claim arising out of or in connection with them or their subject matter shall be governed by, and construed in accordance with, applicable laws of India.",
+        "Any legal suit, action, or proceeding arising out of, or related to, these Terms or the website shall be instituted in the competent courts of India."
       ]
     },
     {
@@ -93,9 +93,7 @@ export const termsOfServiceData: LegalData = {
       content: [
         "If you have any questions, feedback, or legal notices regarding these Terms, please contact us at:",
         "Email: legal@vixora.com",
-        "Vixora Studio — Attention: Legal Department",
-        "San Francisco: 100 Montgomery St, San Francisco, CA 94104",
-        "London: 22 Bishopsgate, London EC2N 4AJ, United Kingdom"
+        "Vixora Studio — Headquartered in India (Delivering Worldwide)"
       ]
     }
   ]

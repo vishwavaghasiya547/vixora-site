@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Shield, Check } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Shield, Check } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FinalCTA from '@/components/FinalCTA';
@@ -26,7 +26,7 @@ export default function ServicesPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-36 lg:pt-52 pb-24 overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
+      <section className="relative pt-32 lg:pt-40 pb-20 overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
         {/* Parallax Grid overlay */}
         <div
           className="absolute inset-0 opacity-[0.25] pointer-events-none"
@@ -41,17 +41,6 @@ export default function ServicesPage() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 mb-12 group"
-            style={{ color: 'hsl(var(--ink-muted))' }}
-          >
-            <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
-            <span className="font-mono text-[11px] uppercase tracking-widest group-hover:text-ink transition-colors">
-              Back to Home
-            </span>
-          </Link>
-
           <div className="flex items-center gap-4 mb-8 scroll-reveal">
             <span className="text-caption">Capabilities</span>
             <div className="h-px w-12" style={{ background: 'hsl(var(--border))' }} />

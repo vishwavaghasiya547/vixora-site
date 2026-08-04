@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ShieldCheck, GitBranch } from 'lucide-react';
+import { ArrowRight, ShieldCheck, GitBranch } from 'lucide-react';
 import { ServiceData } from '../data/servicesData';
 
 interface ServiceHeroProps {
@@ -23,7 +23,7 @@ export default function ServiceHero({ service, onOpenModal }: ServiceHeroProps) 
   const Icon = service.icon;
 
   return (
-    <section className="relative pt-36 lg:pt-52 pb-24 overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
+    <section className="relative pt-32 lg:pt-40 pb-20 overflow-hidden" style={{ background: 'hsl(var(--bg))' }}>
       {/* Engineering Grid Overlay */}
       <div
         className="absolute inset-0 opacity-[0.25] pointer-events-none"
@@ -38,18 +38,6 @@ export default function ServiceHero({ service, onOpenModal }: ServiceHeroProps) 
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Back navigation */}
-        <Link
-          href="/services"
-          className="inline-flex items-center gap-2 mb-12 group transition-colors duration-200"
-          style={{ color: 'hsl(var(--ink-muted))' }}
-        >
-          <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
-          <span className="font-mono text-[11px] uppercase tracking-widest group-hover:text-ink transition-colors">
-            Our Services
-          </span>
-        </Link>
-
         {/* Section Label */}
         <div className="flex items-center gap-3 mb-6 scroll-reveal">
           <span className="font-mono text-[10px] uppercase tracking-widest text-accent font-semibold bg-accent-soft px-3 py-1 rounded-full border border-accent/10">
