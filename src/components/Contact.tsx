@@ -1,234 +1,125 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const [formData, setFormData] = useState({ name: '', email: '', company: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
+    setStatus('loading');
+    await new Promise(r => setTimeout(r, 1400));
+    setStatus('success');
     setFormData({ name: '', email: '', company: '', message: '' });
-    alert('Thank you for your message! We\'ll get back to you soon.');
+    setTimeout(() => setStatus('idle'), 4000);
   };
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'hello@vixora.com',
-      href: 'mailto:hello@vixora.com'
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567'
-    },
-    {
-      icon: MapPin,
-      label: 'Office',
-      value: '123 Tech Street, Silicon Valley, CA 94025',
-      href: '#'
-    }
-  ];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   return (
-    <section id="contact" className="py-24 bg-white">
+    <section id="contact" className="section-pad relative" style={{ background: 'hsl(var(--surface))' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Get in
-            <span className="block text-gradient">Touch</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to start your next project? We'd love to hear from you. Send us a message and we'll respond within 24 hours.
-          </p>
+        <div className="flex items-center gap-4 mb-6 scroll-reveal">
+          <span className="text-caption">Connect</span>
+          <div className="h-px flex-1" style={{ background: 'hsl(var(--border))' }} />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Contact Form */}
-          <div>
-            <div className="card-premium hover-lift">
-              <div className="flex items-center space-x-3 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
-                  <MessageSquare className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Send us a message</h3>
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
+          <div className="lg:col-span-5 scroll-reveal delay-100">
+            <h2 className="text-display mb-6" style={{ fontSize: 'clamp(2rem, 4vw, 3.25rem)' }}>
+              Let&apos;s start a{' '}
+              <span className="text-serif-accent">dialogue</span>
+            </h2>
+            <p className="text-body mb-10 max-w-md">
+              Whether you have a specific project in mind or just want to explore possibilities, our team is ready to talk.
+            </p>
+
+            <div className="space-y-6 pt-6 mb-10" style={{ borderTop: '1px solid hsl(var(--border))' }}>
+              <div>
+                <p className="text-caption mb-1">Email</p>
+                <a href="mailto:info@vixoralabs.in" className="text-lg font-medium hover:text-accent transition-colors" style={{ color: 'hsl(var(--ink))' }}>info@vixoralabs.in</a>
               </div>
+              <div>
+                <p className="text-caption mb-1">Phone</p>
+                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>+91 87809 47319</p>
+              </div>
+              <div>
+                <p className="text-caption mb-1">Location</p>
+                <p className="text-lg font-medium" style={{ color: 'hsl(var(--ink))' }}>India (Serving Clients Worldwide)</p>
+              </div>
+            </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-gray-700">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="John Doe"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="company" className="text-sm font-medium text-gray-700">
-                    Company (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Acme Inc."
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium text-gray-700">
-                    Project Details
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleTextareaChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
-                    placeholder="Tell us about your project..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-premium w-full flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      <span>Send Message</span>
-                    </>
-                  )}
-                </button>
-              </form>
+            {/* Quick Links */}
+            <div>
+              <p className="text-caption mb-3">Jump To</p>
+              <div className="flex flex-col gap-2">
+                {[
+                  { name: 'Our Services', href: '/#services' },
+                  { name: 'Selected Work', href: '/#work' },
+                  { name: 'Our Process', href: '/#process' },
+                ].map((l, i) => (
+                  <Link key={i} href={l.href} className="group flex items-center justify-between py-2 transition-colors duration-300"
+                    style={{ borderBottom: '1px solid hsl(var(--border))' }}
+                  >
+                    <span className="text-sm font-medium group-hover:text-accent transition-colors" style={{ color: 'hsl(var(--ink-light))' }}>{l.name}</span>
+                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2 group-hover:translate-x-0" style={{ color: 'hsl(var(--accent))' }} />
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Contact Information */}
-          <div className="space-y-8">
-            {/* Contact Cards */}
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <a
-                  key={index}
-                  href={info.href}
-                  className="card-premium hover-lift block group"
-                >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <info.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm text-gray-500 mb-1">{info.label}</div>
-                      <div className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                        {info.value}
-                      </div>
-                    </div>
+          <div className="lg:col-span-7 scroll-reveal delay-200">
+            <div className="card-flat p-8 lg:p-10">
+              <h3 className="text-heading text-xl mb-6">Send an inquiry</h3>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="name" className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--ink-muted))' }}>Name *</label>
+                    <input id="name" name="name" type="text" required value={formData.name} onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg text-sm bg-white transition-all outline-none focus:ring-2 focus:ring-offset-1"
+                      style={{ border: '1px solid hsl(var(--border))', color: 'hsl(var(--ink))', '--tw-ring-color': 'hsl(var(--accent))' } as any}
+                    />
                   </div>
-                </a>
-              ))}
-            </div>
-
-            {/* Office Hours */}
-            <div className="card-premium">
-              <h4 className="text-lg font-bold text-gray-900 mb-4">Office Hours</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Monday - Friday</span>
-                  <span className="font-semibold text-gray-900">9:00 AM - 6:00 PM PST</span>
+                  <div>
+                    <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--ink-muted))' }}>Email *</label>
+                    <input id="email" name="email" type="email" required value={formData.email} onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg text-sm bg-white transition-all outline-none focus:ring-2 focus:ring-offset-1"
+                      style={{ border: '1px solid hsl(var(--border))', color: 'hsl(var(--ink))', '--tw-ring-color': 'hsl(var(--accent))' } as any}
+                    />
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Saturday</span>
-                  <span className="font-semibold text-gray-900">10:00 AM - 2:00 PM PST</span>
+                <div>
+                  <label htmlFor="company" className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--ink-muted))' }}>Company <span style={{ color: 'hsl(var(--border-strong))' }}>(optional)</span></label>
+                  <input id="company" name="company" type="text" value={formData.company} onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg text-sm bg-white transition-all outline-none focus:ring-2 focus:ring-offset-1"
+                    style={{ border: '1px solid hsl(var(--border))', color: 'hsl(var(--ink))', '--tw-ring-color': 'hsl(var(--accent))' } as any}
+                  />
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sunday</span>
-                  <span className="font-semibold text-gray-900">Closed</span>
+                <div>
+                  <label htmlFor="message" className="block text-xs font-mono uppercase tracking-wider mb-2" style={{ color: 'hsl(var(--ink-muted))' }}>Message *</label>
+                  <textarea id="message" name="message" rows={4} required value={formData.message} onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg text-sm bg-white transition-all outline-none resize-none focus:ring-2 focus:ring-offset-1"
+                    style={{ border: '1px solid hsl(var(--border))', color: 'hsl(var(--ink))', '--tw-ring-color': 'hsl(var(--accent))' } as any}
+                  />
                 </div>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="card-premium">
-              <h4 className="text-lg font-bold text-gray-900 mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                {['LinkedIn', 'Twitter', 'GitHub', 'Dribbble'].map((social) => (
-                  <button
-                    key={social}
-                    className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-blue-100 hover:text-blue-600 transition-all duration-200"
-                  >
-                    <span className="text-sm font-semibold">{social[0]}</span>
-                  </button>
-                ))}
-              </div>
+                <button type="submit" disabled={status !== 'idle'}
+                  className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                >
+                  {status === 'loading' ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /><span>Sending...</span></>
+                  ) : status === 'success' ? (
+                    <><CheckCircle2 className="w-4 h-4" /><span>Sent successfully</span></>
+                  ) : (
+                    <><span>Send Message</span><ArrowRight className="w-4 h-4" /></>
+                  )}
+                </button>
+              </form>
             </div>
           </div>
         </div>
