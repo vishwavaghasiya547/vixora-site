@@ -1,31 +1,33 @@
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import TrustedBy from '@/components/TrustedBy';
-import About from '@/components/About';
-import Services from '@/components/Services';
-import Work from '@/components/Work';
-import Process from '@/components/Process';
-import Technology from '@/components/Technology';
-import Testimonials from '@/components/Testimonials';
-import FinalCTA from '@/components/FinalCTA';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { PageWrapper } from "@/components/layout/page-wrapper";
+import { AnnouncementBar } from "@/components/layout/announcement-bar";
+import { HeroSection } from "@/features/hero/hero-section";
+import { AboutSection } from "@/features/about/about-section";
+import { ServicesSection } from "@/features/services/services-section";
+import { TechnologiesSection } from "@/features/technologies/technologies-section";
+import { ProcessSection } from "@/features/process/process-section";
+import { TestimonialsSection } from "@/features/testimonials/testimonials-section";
+import { ContactSection } from "@/features/contact/contact-section";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen" style={{ background: 'hsl(var(--bg))' }}>
+    <>
+      <AnnouncementBar>
+        <span className="font-bold">🚀 Let's Build the Future Together 🚀</span>
+        <a href="#" className="text-[#6c2bd9] font-bold ml-2 hover:underline">Apply Here</a>
+      </AnnouncementBar>
       <Navbar />
-      <Hero />
-      <TrustedBy />
-      <About />
-      <Services />
-      <Work />
-      <Process />
-      <Technology />
-      <Testimonials />
-      <FinalCTA />
-      <Contact />
+      <PageWrapper>
+        <HeroSection />
+        <AboutSection />
+        <ServicesSection />
+        <TechnologiesSection />
+        <ProcessSection />
+        <TestimonialsSection />
+        <ContactSection />
+      </PageWrapper>
       <Footer />
-    </div>
+    </>
   );
 }

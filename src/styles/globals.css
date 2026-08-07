@@ -98,8 +98,8 @@
   --radius-xl: var(--radius-xl);
   --radius-full: var(--radius-full);
 
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* Custom Spacing System (AGENTS.md) */
   --spacing-4: 4px;
@@ -118,13 +118,6 @@
   --duration-fast: 200ms;
   --duration-normal: 400ms;
   --duration-slow: 800ms;
-
-  --animate-marquee: marquee 30s linear infinite;
-
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 1.25rem)); } /* -50% minus half gap */
-  }
 }
 
 @layer base {
@@ -178,54 +171,5 @@
   /* Text Gradients */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary;
-  }
-}
-
-/* Hero Concentric Circles Animation from Codewinglet */
-.hero-glow-box {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: -1;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
-  position: absolute;
-}
-
-.hero-glow-box span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  box-sizing: border-box;
-  width: 1300px;
-  height: 1300px;
-  /* Premium Glassmorphism Ring */
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: 50%;
-  animation: hero-glow-animate 6s linear infinite;
-  background: transparent;
-  /* Optimized Glow (Single shadow for better GPU performance) */
-  box-shadow: 0 0 200px rgba(255, 255, 255, 0.15);
-  /* Hardware Acceleration to fix lag */
-  will-change: transform, opacity;
-}
-
-.hero-glow-box span:nth-child(10n+1) {
-  opacity: 0;
-}
-
-@keyframes hero-glow-animate {
-  0% {
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-  }
-  20% {
-      opacity: 1;
-  }
-  100% {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0;
   }
 }

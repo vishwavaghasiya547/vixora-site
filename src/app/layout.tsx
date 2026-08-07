@@ -1,31 +1,25 @@
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import ScrollReveal from "@/components/ScrollReveal";
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
-  title: "Vixora — Engineering Intelligent Digital Experiences",
-  description: "Vixora partners with startups and enterprises to build scalable digital products, AI-powered platforms, and premium web experiences that drive measurable growth.",
-  keywords: ["web development", "AI solutions", "SaaS development", "Shopify engineering", "digital transformation", "tech company", "software development"],
-  authors: [{ name: "Vixora" }],
-  openGraph: {
-    title: "Vixora — Engineering Intelligent Digital Experiences",
-    description: "Vixora partners with startups and enterprises to build scalable digital products, AI-powered platforms, and premium web experiences that drive measurable growth.",
-    type: "website",
-    url: "https://vixora.com",
-  },
+  title: "Vixora Labs",
+  description: "Your Trusted AI Development Partner - Delivering Smart Solutions For",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="h-full antialiased" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
-        <ScrollReveal />
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${poppins.variable} h-full antialiased`}
+    >
+      <body className="font-sans min-h-full flex flex-col overflow-x-hidden">{children}</body>
     </html>
   );
 }

@@ -9,7 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-/.agent
+
 # testing
 /coverage
 
@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
